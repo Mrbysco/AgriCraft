@@ -4,13 +4,14 @@ import com.agricraft.agricraft.api.AgriApi;
 import com.agricraft.agricraft.api.codecs.AgriSoil;
 import com.agricraft.agricraft.api.tools.magnifying.MagnifyingInspectable;
 import com.agricraft.agricraft.api.tools.magnifying.MagnifyingInspector;
+import com.agricraft.agricraft.common.datacomponent.ModDataComponents;
 import com.agricraft.agricraft.common.registry.ModItems;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -43,10 +44,7 @@ public class MagnifyingGlassOverlay {
 	static {
 		addAllowingPredicate(player -> player.getMainHandItem().is(ModItems.MAGNIFYING_GLASS.get()));
 		addAllowingPredicate(player -> player.getOffhandItem().is(ModItems.MAGNIFYING_GLASS.get()));
-		addAllowingPredicate(player -> {
-			CompoundTag tag = player.getItemBySlot(EquipmentSlot.HEAD).getTag();
-			return tag != null && tag.getBoolean("magnifying");
-		});
+		addAllowingPredicate(player -> player.getItemBySlot(EquipmentSlot.HEAD).getOrDefault(ModDataComponents.MAGNIFYING.get(), false));
 
 		inspectors.add((level, player, hitResult) -> {
 			if (hitResult instanceof BlockHitResult result) {
@@ -102,7 +100,7 @@ public class MagnifyingGlassOverlay {
 	}
 
 
-	public static void renderOverlay(GuiGraphics graphics, float partialTicks) {
+	public static void renderOverlay(GuiGraphics graphics, DeltaTracker deltaTracker) {
 		// greatly inspired from create goggles
 		Minecraft mc = Minecraft.getInstance();
 		if ((mc.screen != null && !(mc.screen instanceof ChatScreen)) || mc.options.hideGui || mc.gameMode.getPlayerMode() == GameType.SPECTATOR || mc.player == null || mc.level == null) {

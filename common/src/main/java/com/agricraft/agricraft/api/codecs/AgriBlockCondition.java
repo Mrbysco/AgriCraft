@@ -3,11 +3,9 @@ package com.agricraft.agricraft.api.codecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +35,7 @@ public record AgriBlockCondition(ExtraCodecs.TagOrElementLocation block, List<St
 	}
 
 	public static class Builder {
-		ExtraCodecs.TagOrElementLocation item = new ExtraCodecs.TagOrElementLocation(new ResourceLocation("minecraft", "air"), false);
+		ExtraCodecs.TagOrElementLocation item = new ExtraCodecs.TagOrElementLocation(ResourceLocation.withDefaultNamespace("air"), false);
 		List<String> states = List.of();
 		int strength = 11;
 
@@ -46,19 +44,19 @@ public record AgriBlockCondition(ExtraCodecs.TagOrElementLocation block, List<St
 		}
 
 		public Builder item(String location) {
-			this.item = new ExtraCodecs.TagOrElementLocation(new ResourceLocation(location), false);
+			this.item = new ExtraCodecs.TagOrElementLocation(ResourceLocation.tryParse(location), false);
 			return this;
 		}
 		public Builder item(String namespace, String path) {
-			this.item = new ExtraCodecs.TagOrElementLocation(new ResourceLocation(namespace, path), false);
+			this.item = new ExtraCodecs.TagOrElementLocation(ResourceLocation.fromNamespaceAndPath(namespace, path), false);
 			return this;
 		}
 		public Builder tag(String location) {
-			this.item = new ExtraCodecs.TagOrElementLocation(new ResourceLocation(location), true);
+			this.item = new ExtraCodecs.TagOrElementLocation(ResourceLocation.tryParse(location), true);
 			return this;
 		}
 		public Builder tag(String namespace, String path) {
-			this.item = new ExtraCodecs.TagOrElementLocation(new ResourceLocation(namespace, path), true);
+			this.item = new ExtraCodecs.TagOrElementLocation(ResourceLocation.fromNamespaceAndPath(namespace, path), true);
 			return this;
 		}
 		public Builder states(String... states) {

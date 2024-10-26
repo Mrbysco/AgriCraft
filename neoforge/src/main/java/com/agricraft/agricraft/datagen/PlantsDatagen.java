@@ -10,7 +10,7 @@ import com.agricraft.agricraft.api.codecs.AgriSeed;
 import com.agricraft.agricraft.api.plant.AgriPlant;
 import com.agricraft.agricraft.api.plant.AgriPlantModifierInfo;
 import com.agricraft.agricraft.api.requirement.AgriSeason;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
@@ -40,7 +40,7 @@ import static com.agricraft.agricraft.api.requirement.AgriSeason.WINTER;
 
 public class PlantsDatagen {
 
-	public static void registerPlants(BootstapContext<AgriPlant> context) {
+	public static void registerPlants(BootstrapContext<AgriPlant> context) {
 		// AgriSeed.builder().chances(0.0, 1.0, 0.0).build()
 		minecraft(context, "allium", new AgriPlant.Builder().seeds().stages16().chances(0.65, 0.025, 0.1).products(AgriProduct.builder().item("minecraft:magenta_dye").count(1, 1, 0.75).build()).clips(AgriProduct.builder().item("minecraft:allium").count(0, 1, 0.5).build()).requirement(AgriRequirement.builder().humidity(DAMP, EQUAL, 0.2).acidity(SLIGHTLY_ACIDIC, EQUAL, 0.2).nutrients(VERY_HIGH, EQUAL_OR_HIGHER, 0.2).light(10, 16, 0.5).seasons(SPRING).build()).build());
 		minecraft(context, "azure_bluet", new AgriPlant.Builder().stages(2, 3, 5, 6, 8, 9, 11, 12).chances(0.65, 0.025, 0.1).products(AgriProduct.builder().item("minecraft:light_gray_dye").count(1, 1, 0.75).build()).clips(AgriProduct.builder().item("minecraft:azure_bluet").count(0, 1, 0.5).build()).requirement(AgriRequirement.builder().humidity(DAMP, EQUAL, 0.2).acidity(SLIGHTLY_ACIDIC, EQUAL, 0.2).nutrients(VERY_HIGH, EQUAL_OR_HIGHER, 0.2).light(10, 16, 0.5).seasons(SPRING).build()).build());
@@ -84,7 +84,7 @@ public class PlantsDatagen {
 		agricraft(context, "ferranium", new AgriPlant.Builder().stages16().chances(0.5, 0.025, 0.1).products(AgriProduct.builder().tag("agricraft:nuggets/iron").count(1, 2, 0.95).build()).requirement(AgriRequirement.builder().humidity(DRY, EQUAL, 0.2).acidity(SLIGHTLY_ALKALINE, EQUAL, 0.2).nutrients(LOW, EQUAL, 0.2).seasons(SPRING).blocks(AgriBlockCondition.builder().tag("agricraft:ores/iron").build()).build()).build());
 		agricraft(context, "jaslumine", new AgriPlant.Builder().stages16().chances(0.5, 0.025, 0.1).products(AgriProduct.builder().tag("agricraft:nuggets/aluminium").count(1, 2, 0.95).build()).requirement(AgriRequirement.builder().humidity(DRY, EQUAL, 0.2).acidity(SLIGHTLY_ALKALINE, EQUAL, 0.2).nutrients(LOW, EQUAL, 0.2).seasons(SPRING).blocks(AgriBlockCondition.builder().tag("agricraft:ores/aluminium").build()).build()).build());
 		agricraft(context, "lapender", new AgriPlant.Builder().stages16().chances(0.6, 0.025, 0.1).products(AgriProduct.builder().tag("agricraft:gems/lapis").count(1, 4, 0.9).build()).requirement(AgriRequirement.builder().humidity(DRY, EQUAL, 0.2).acidity(SLIGHTLY_ALKALINE, EQUAL, 0.2).nutrients(LOW, EQUAL, 0.2).seasons(SPRING).blocks(AgriBlockCondition.builder().tag("agricraft:ores/lapis").build()).build()).build());
-		agricraft(context, "nethereed", new AgriPlant.Builder().stages16().chances(0.15, 0.015, 0.025).products(AgriProduct.builder().item("agricraft:netherite_sliver").count(1, 1, 0.25).build()).harvest(0).requirement(AgriRequirement.builder().humidity(DRY, EQUAL, 0.2).acidity(SLIGHTLY_ALKALINE, EQUAL, 0.2).nutrients(LOW, EQUAL, 0.2).biomes(new ResourceLocation("minecraft:the_nether")).seasons(SUMMER).blocks(AgriBlockCondition.builder().tag("agricraft:ores/netherite_scrap").build()).fluid(AgriFluidCondition.builder().fluid("minecraft:lava").build()).build()).modifiers(new AgriPlantModifierInfo("agricraft:thorns"), new AgriPlantModifierInfo("agricraft:bushy"), new AgriPlantModifierInfo("agricraft:burn")).build());
+		agricraft(context, "nethereed", new AgriPlant.Builder().stages16().chances(0.15, 0.015, 0.025).products(AgriProduct.builder().item("agricraft:netherite_sliver").count(1, 1, 0.25).build()).harvest(0).requirement(AgriRequirement.builder().humidity(DRY, EQUAL, 0.2).acidity(SLIGHTLY_ALKALINE, EQUAL, 0.2).nutrients(LOW, EQUAL, 0.2).biomes(ResourceLocation.withDefaultNamespace("the_nether")).seasons(SUMMER).blocks(AgriBlockCondition.builder().tag("agricraft:ores/netherite_scrap").build()).fluid(AgriFluidCondition.builder().fluid("minecraft:lava").build()).build()).modifiers(new AgriPlantModifierInfo("agricraft:thorns"), new AgriPlantModifierInfo("agricraft:bushy"), new AgriPlantModifierInfo("agricraft:burn")).build());
 		agricraft(context, "niccissus", new AgriPlant.Builder().stages16().chances(0.5, 0.025, 0.1).products(AgriProduct.builder().tag("agricraft:nuggets/nickel").count(1, 2, 0.95).build()).requirement(AgriRequirement.builder().humidity(DRY, EQUAL, 0.2).acidity(SLIGHTLY_ALKALINE, EQUAL, 0.2).nutrients(LOW, EQUAL, 0.2).seasons(SPRING).blocks(AgriBlockCondition.builder().tag("agricraft:ores/nickel").build()).build()).build());
 		agricraft(context, "nitor_wart", new AgriPlant.Builder().stages16().chances(0.6, 0.025, 0.1).products(AgriProduct.builder().tag("agricraft:dusts/glowstone").count(1, 4, 0.9).build()).harvest(3).requirement(AgriRequirement.builder().humidity(ARID, EQUAL, 0.15).acidity(NEUTRAL, EQUAL, 0.2).nutrients(VERY_HIGH, EQUAL_OR_HIGHER, 0.1).blocks(AgriBlockCondition.builder().item("minecraft:glowstone").build()).build()).modifiers(new AgriPlantModifierInfo("agricraft:brightness")).build());
 		agricraft(context, "osmonium", new AgriPlant.Builder().stages16().chances(0.5, 0.025, 0.1).products(AgriProduct.builder().tag("agricraft:nuggets/osmium").count(1, 2, 0.95).build()).requirement(AgriRequirement.builder().humidity(DRY, EQUAL, 0.2).acidity(SLIGHTLY_ALKALINE, EQUAL, 0.2).nutrients(LOW, EQUAL, 0.2).seasons(SPRING).blocks(AgriBlockCondition.builder().tag("agricraft:ores/osmium").build()).build()).build());
@@ -95,7 +95,7 @@ public class PlantsDatagen {
 		agricraft(context, "redstodendron", new AgriPlant.Builder().stages16().chances(0.5, 0.025, 0.1).products(AgriProduct.builder().tag("agricraft:dusts/redstone").count(1, 2, 0.95).build()).requirement(AgriRequirement.builder().humidity(DRY, EQUAL, 0.2).acidity(SLIGHTLY_ALKALINE, EQUAL, 0.2).nutrients(LOW, EQUAL, 0.2).seasons(SPRING).blocks(AgriBlockCondition.builder().tag("agricraft:ores/redstone").build()).build()).modifiers(new AgriPlantModifierInfo("agricraft:redstone")).build());
 	}
 
-	public static void registerBiomesOPlenty(BootstapContext<AgriPlant> context) {
+	public static void registerBiomesOPlenty(BootstrapContext<AgriPlant> context) {
 		r(context, "biomesoplenty", "burning_blossom", flower("minecraft:orange_dye", "biomesoplenty:burning_blossom", SUMMER, AUTUMN).modifiers(new AgriPlantModifierInfo("agricraft:burn")).particles(new AgriParticleEffect("minecraft:flame", 0.5, 0.75, 0.5, 0.125, List.of(7)), new AgriParticleEffect("minecraft:smoke", 0.5, 0.75, 0.5, 0.25, List.of(7))).build());
 		r(context, "biomesoplenty", "glowflower", flower("minecraft:cyan_dye", "biomesoplenty:glowflower", SPRING, SUMMER).build());
 		r(context, "biomesoplenty", "glowshroom", new AgriPlant.Builder().seeds(AgriSeed.builder().item("biomesoplenty:glowshroom").build()).stages16().chances(0.75, 0.025, 0.1).products(AgriProduct.builder().item("biomesoplenty:glowshroom").count(2, 5, 1.0).build()).requirement(AgriRequirement.builder().humidity(DAMP, EQUAL, 0.15).acidity(NEUTRAL, EQUAL, 0.2).nutrients(MEDIUM, EQUAL_OR_LOWER, 0.2).light(0, 10, 0.5).seasons(SPRING, SUMMER, AUTUMN, WINTER).build()).modifiers(new AgriPlantModifierInfo("agricraft:brightness")).build());
@@ -109,11 +109,11 @@ public class PlantsDatagen {
 		r(context, "biomesoplenty", "wilted_lily", flower("minecraft:gray_dye", "biomesoplenty:wilted_lily", AUTUMN, WINTER).build());
 	}
 
-	public static void registerImmersiveEngineering(BootstapContext<AgriPlant> context) {
+	public static void registerImmersiveEngineering(BootstrapContext<AgriPlant> context) {
 		r(context, "immersiveengineering", "hemp", new AgriPlant.Builder().seeds(AgriSeed.builder().item("immersiveengineering:seed").chances(0.0, 1.0, 0.0).build()).stages(6, 10, 10, 12, 12, 16, 16, 32).chances(0.75, 0.025, 0.1).products(AgriProduct.builder().item("immersiveengineering:hemp_fiber").count(1, 2, 0.85).build()).requirement(AgriRequirement.builder().humidity(WET, EQUAL, 0.15).acidity(SLIGHTLY_ACIDIC, EQUAL, 0.2).nutrients(HIGH, EQUAL_OR_HIGHER, 0.1).light(10, 16, 0.5).build()).build());
 	}
 
-	public static void registerPamsHarvestCraft2(BootstapContext<AgriPlant> context) {
+	public static void registerPamsHarvestCraft2(BootstrapContext<AgriPlant> context) {
 		hcSandy(context, "agave");
 		hcVegetable(context, "amaranth", AUTUMN);
 		hcVegetable(context, "arrowroot", AUTUMN);
@@ -213,28 +213,28 @@ public class PlantsDatagen {
 		hcVegetable(context, "sunchoke", SPRING, AUTUMN);
 	}
 
-	private static void minecraft(BootstapContext<AgriPlant> context, String plantId, AgriPlant plant) {
+	private static void minecraft(BootstrapContext<AgriPlant> context, String plantId, AgriPlant plant) {
 		r(context, "minecraft", plantId, plant);
 	}
 
-	private static void agricraft(BootstapContext<AgriPlant> context, String plantId, AgriPlant plant) {
+	private static void agricraft(BootstrapContext<AgriPlant> context, String plantId, AgriPlant plant) {
 		r(context, "agricraft", plantId, plant);
 	}
 
-	public static void hcVegetable(BootstapContext<AgriPlant> context, String name, AgriSeason... seasons) {
+	public static void hcVegetable(BootstrapContext<AgriPlant> context, String name, AgriSeason... seasons) {
 		r(context, "pamhc2crops", name, hcCrop(name).requirement(AgriRequirement.builder().humidity(WET, EQUAL, 0.15).acidity(SLIGHTLY_ACIDIC, EQUAL, 0.2).nutrients(HIGH, EQUAL_OR_HIGHER, 0.1).light(10, 16, 0.5).seasons(seasons).build()).build());
 	}
 
-	public static void hcBerry(BootstapContext<AgriPlant> context, String name, AgriSeason... seasons) {
+	public static void hcBerry(BootstrapContext<AgriPlant> context, String name, AgriSeason... seasons) {
 		r(context, "pamhc2crops", name, hcCrop(name).requirement(AgriRequirement.builder().humidity(DAMP, EQUAL, 0.15).acidity(SLIGHTLY_ACIDIC, EQUAL, 0.2).nutrients(MEDIUM, EQUAL_OR_HIGHER, 0.1).light(10, 16, 0.5).seasons(seasons).build()).build());
 	}
 
-	public static void hcSandy(BootstapContext<AgriPlant> context, String name) {
+	public static void hcSandy(BootstrapContext<AgriPlant> context, String name) {
 		r(context, "pamhc2crops", name, hcCrop(name).requirement(AgriRequirement.builder().humidity(ARID, EQUAL, 0.34).acidity(NEUTRAL, EQUAL, 0.2).nutrients(LOW, EQUAL_OR_HIGHER, 0.1).light(10, 16, 0.5).seasons(SUMMER).build()).build());
 	}
 
-	public static void r(BootstapContext<AgriPlant> context, String modid, String plantId, AgriPlant plant) {
-		context.register(ResourceKey.create(AgriApi.AGRIPLANTS, new ResourceLocation(modid, plantId)), plant);
+	public static void r(BootstrapContext<AgriPlant> context, String modid, String plantId, AgriPlant plant) {
+		context.register(ResourceKey.create(AgriApi.AGRIPLANTS, ResourceLocation.fromNamespaceAndPath(modid, plantId)), plant);
 	}
 
 	public static AgriPlant.Builder flower(String product, String clip, AgriSeason... seasons) {

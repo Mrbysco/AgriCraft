@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 public record AgriListCondition(List<ResourceLocation> values, boolean blacklist, int ignoreFromStrength) {
 

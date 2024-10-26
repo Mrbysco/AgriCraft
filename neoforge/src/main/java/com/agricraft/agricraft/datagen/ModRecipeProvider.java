@@ -1,6 +1,8 @@
 package com.agricraft.agricraft.datagen;
 
+import com.agricraft.agricraft.api.AgriApi;
 import com.agricraft.agricraft.common.registry.ModItems;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -14,20 +16,22 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import java.util.concurrent.CompletableFuture;
+
 
 public class ModRecipeProvider extends RecipeProvider {
 
-	public ModRecipeProvider(PackOutput output) {
-		super(output);
+	public ModRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+		super(output, registries);
 	}
 
 	@Override
-	protected void buildRecipes(RecipeOutput output) {
-		TagKey<Item> stick = TagKey.create(Registries.ITEM, new ResourceLocation("agricraft:rods/wooden"));
-		TagKey<Item> ironNugget = TagKey.create(Registries.ITEM, new ResourceLocation("agricraft:nuggets/iron"));
-		TagKey<Item> obsidian = TagKey.create(Registries.ITEM, new ResourceLocation("agricraft:obsidian"));
-		TagKey<Item> seed = TagKey.create(Registries.ITEM, new ResourceLocation("agricraft:seeds"));
-		TagKey<Item> ironIngot = TagKey.create(Registries.ITEM, new ResourceLocation("agricraft:ingots/iron"));
+	protected void buildRecipes(RecipeOutput output, HolderLookup.Provider holderLookup) {
+		TagKey<Item> stick = TagKey.create(Registries.ITEM, AgriApi.modLocation("rods/wooden"));
+		TagKey<Item> ironNugget = TagKey.create(Registries.ITEM, AgriApi.modLocation("nuggets/iron"));
+		TagKey<Item> obsidian = TagKey.create(Registries.ITEM, AgriApi.modLocation("obsidian"));
+		TagKey<Item> seed = TagKey.create(Registries.ITEM, AgriApi.modLocation("seeds"));
+		TagKey<Item> ironIngot = TagKey.create(Registries.ITEM, AgriApi.modLocation("ingots/iron"));
 		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, new ItemStack(ModItems.WOODEN_CROP_STICKS.get(), 8))
 				.pattern("##")
 				.pattern("##")
@@ -56,10 +60,10 @@ public class ModRecipeProvider extends RecipeProvider {
 				.pattern(" bs")
 				.pattern("pwp")
 				.define('s', stick)
-				.define('g', TagKey.create(Registries.ITEM, new ResourceLocation("agricraft:glass_panes/colorless")))
+				.define('g', TagKey.create(Registries.ITEM, AgriApi.modLocation("glass_panes/colorless")))
 				.define('b', Items.STONE_SLAB)
-				.define('p', TagKey.create(Registries.ITEM, new ResourceLocation("minecraft:planks")))
-				.define('w', TagKey.create(Registries.ITEM, new ResourceLocation("minecraft:wooden_slabs")))
+				.define('p', TagKey.create(Registries.ITEM, ResourceLocation.withDefaultNamespace("planks")))
+				.define('w', TagKey.create(Registries.ITEM, ResourceLocation.withDefaultNamespace("wooden_slabs")))
 				.unlockedBy("has_seed", has(seed))
 				.save(output);
 		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, new ItemStack(ModItems.CLIPPER.get()))
@@ -75,14 +79,14 @@ public class ModRecipeProvider extends RecipeProvider {
 				.pattern("sgs")
 				.pattern(" s ")
 				.pattern(" s ")
-				.define('g', TagKey.create(Registries.ITEM, new ResourceLocation("agricraft:glass_panes/colorless")))
+				.define('g', TagKey.create(Registries.ITEM, AgriApi.modLocation("glass_panes/colorless")))
 				.define('s', stick)
 				.unlockedBy("has_stick", has(stick))
 				.save(output);
 		ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, new ItemStack(ModItems.WOODEN_RAKE.get()))
 				.pattern("f")
 				.pattern("s")
-				.define('f', TagKey.create(Registries.ITEM, new ResourceLocation("agricraft:fences/wooden")))
+				.define('f', TagKey.create(Registries.ITEM, AgriApi.modLocation("fences/wooden")))
 				.define('s', stick)
 				.unlockedBy("has_stick", has(stick))
 				.save(output);
@@ -104,8 +108,8 @@ public class ModRecipeProvider extends RecipeProvider {
 				.pattern(" s ")
 				.pattern("l l")
 				.pattern(" l ")
-				.define('s', TagKey.create(Registries.ITEM, new ResourceLocation("agricraft:string")))
-				.define('l', TagKey.create(Registries.ITEM, new ResourceLocation("agricraft:leather")))
+				.define('s', TagKey.create(Registries.ITEM, AgriApi.modLocation("string")))
+				.define('l', TagKey.create(Registries.ITEM, AgriApi.modLocation("leather")))
 				.unlockedBy("has_seed", has(seed))
 				.save(output);
 
@@ -115,49 +119,49 @@ public class ModRecipeProvider extends RecipeProvider {
 				.pattern("ppp")
 				.define('p', ModItems.AMATHYLLIS_PETAL.get())
 				.unlockedBy("has_petal", has(ModItems.AMATHYLLIS_PETAL.get()))
-				.save(output, new ResourceLocation("agricraft:amethyst_shard"));
+				.save(output, AgriApi.modLocation("amethyst_shard"));
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, new ItemStack(Items.COAL))
 				.pattern("ppp")
 				.pattern("ppp")
 				.pattern("ppp")
 				.define('p', ModItems.COAL_PEBBLE.get())
 				.unlockedBy("has_pebble", has(ModItems.COAL_PEBBLE.get()))
-				.save(output, new ResourceLocation("agricraft:coal"));
+				.save(output, AgriApi.modLocation("coal"));
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, new ItemStack(Items.COPPER_INGOT))
 				.pattern("nnn")
 				.pattern("nnn")
 				.pattern("nnn")
 				.define('n', ModItems.COPPER_NUGGET.get())
 				.unlockedBy("has_nugget", has(ModItems.COPPER_NUGGET.get()))
-				.save(output, new ResourceLocation("agricraft:copper_ingot"));
+				.save(output, AgriApi.modLocation("copper_ingot"));
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, new ItemStack(Items.DIAMOND))
 				.pattern("sss")
 				.pattern("sss")
 				.pattern("sss")
 				.unlockedBy("has_shard", has(ModItems.DIAMOND_SHARD.get()))
 				.define('s', ModItems.DIAMOND_SHARD.get())
-				.save(output, new ResourceLocation("agricraft:diamond"));
+				.save(output, AgriApi.modLocation("diamond"));
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, new ItemStack(Items.EMERALD))
 				.pattern("sss")
 				.pattern("sss")
 				.pattern("sss")
 				.unlockedBy("has_shard", has(ModItems.EMERALD_SHARD.get()))
 				.define('s', ModItems.EMERALD_SHARD.get())
-				.save(output, new ResourceLocation("agricraft:emerald"));
+				.save(output, AgriApi.modLocation("emerald"));
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, new ItemStack(Items.NETHERITE_SCRAP))
 				.pattern("sss")
 				.pattern("sss")
 				.pattern("sss")
 				.unlockedBy("has_sliver", has(ModItems.NETHERITE_SLIVER.get()))
 				.define('s', ModItems.NETHERITE_SLIVER.get())
-				.save(output, new ResourceLocation("agricraft:netherite_scrap"));
+				.save(output, AgriApi.modLocation("netherite_scrap"));
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, new ItemStack(Items.QUARTZ))
 				.pattern("sss")
 				.pattern("sss")
 				.pattern("sss")
 				.unlockedBy("has_shard", has(ModItems.QUARTZ_SHARD.get()))
 				.define('s', ModItems.QUARTZ_SHARD.get())
-				.save(output, new ResourceLocation("agricraft:quartz"));
+				.save(output, AgriApi.modLocation("quartz"));
 	}
 
 }

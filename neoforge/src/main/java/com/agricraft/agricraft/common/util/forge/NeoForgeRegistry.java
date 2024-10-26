@@ -1,9 +1,11 @@
 package com.agricraft.agricraft.common.util.forge;
 
+import com.agricraft.agricraft.api.AgriApi;
 import com.agricraft.agricraft.common.util.PlatformRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.javafmlmod.FMLModContainer;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -25,7 +27,15 @@ public class NeoForgeRegistry<T> implements PlatformRegistry<T> {
 
 	@Override
 	public void init() {
-		this.registry.register(FMLJavaModLoadingContext.get().getModEventBus());
+		final var containerOpt = ModList.get().getModContainerById(AgriApi.MOD_ID);
+		if (containerOpt.isEmpty())
+			throw new NullPointerException("Cannot find mod container for id " + AgriApi.MOD_ID);
+		final var cont = containerOpt.get();
+		if (cont instanceof FMLModContainer fmlModContainer) {
+			this.registry.register(fmlModContainer.getEventBus());
+		} else {
+			throw new ClassCastException("The container of the mod " + AgriApi.MOD_ID + " is not a FML one!");
+		}
 	}
 
 	public static class NeoForgeRegistryEntry<T, R extends T> implements Entry<R> {

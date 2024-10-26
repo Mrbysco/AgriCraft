@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MutationsPage implements JournalPage {
 
-	public static final ResourceLocation ID = new ResourceLocation(AgriApi.MOD_ID, "mutation_page");
+	public static final ResourceLocation ID = AgriApi.modLocation("mutation_page");
 	public static final int LIMIT = 18;
 
 	private final List<List<ResourceLocation>> mutationsLeft;

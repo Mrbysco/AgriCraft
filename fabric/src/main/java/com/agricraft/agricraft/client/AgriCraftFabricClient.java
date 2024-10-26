@@ -6,6 +6,7 @@ import com.agricraft.agricraft.client.ber.SeedAnalyzerEntityRenderer;
 import com.agricraft.agricraft.client.bewlr.AgriSeedBEWLR;
 import com.agricraft.agricraft.client.gui.MagnifyingGlassOverlay;
 import com.agricraft.agricraft.client.gui.SeedAnalyzerScreen;
+import com.agricraft.agricraft.common.datacomponent.ModDataComponents;
 import com.agricraft.agricraft.common.registry.ModBlockEntityTypes;
 import com.agricraft.agricraft.common.registry.ModBlocks;
 import com.agricraft.agricraft.common.registry.ModItems;
@@ -40,20 +41,20 @@ public class AgriCraftFabricClient implements ClientModInitializer {
 		BuiltinItemRendererRegistry.INSTANCE.register(ModItems.SEED.get(), AgriSeedBEWLR.INSTANCE::renderByItem);
 		ModelLoadingPlugin.register(pluginContext -> {
 			for (Map.Entry<ResourceLocation, Resource> entry : FileToIdConverter.json("models/seed").listMatchingResources(Minecraft.getInstance().getResourceManager()).entrySet()) {
-				ResourceLocation seed = new ResourceLocation(entry.getKey().getNamespace(), entry.getKey().getPath().replace("models/seed", "seed").replace(".json", ""));
+				ResourceLocation seed = ResourceLocation.fromNamespaceAndPath(entry.getKey().getNamespace(), entry.getKey().getPath().replace("models/seed", "seed").replace(".json", ""));
 				pluginContext.addModels(seed);
 			}
 			for (Map.Entry<ResourceLocation, Resource> entry : FileToIdConverter.json("models/crop").listMatchingResources(Minecraft.getInstance().getResourceManager()).entrySet()) {
-				ResourceLocation crop = new ResourceLocation(entry.getKey().getNamespace(), entry.getKey().getPath().replace("models/crop", "crop").replace(".json", ""));
+				ResourceLocation crop = ResourceLocation.fromNamespaceAndPath(entry.getKey().getNamespace(), entry.getKey().getPath().replace("models/crop", "crop").replace(".json", ""));
 				pluginContext.addModels(crop);
 			}
 			for (Map.Entry<ResourceLocation, Resource> entry : FileToIdConverter.json("models/weed").listMatchingResources(Minecraft.getInstance().getResourceManager()).entrySet()) {
-				ResourceLocation crop = new ResourceLocation(entry.getKey().getNamespace(), entry.getKey().getPath().replace("models/weed", "weed").replace(".json", ""));
+				ResourceLocation crop = ResourceLocation.fromNamespaceAndPath(entry.getKey().getNamespace(), entry.getKey().getPath().replace("models/weed", "weed").replace(".json", ""));
 				pluginContext.addModels(crop);
 			}
 			// add the crop sticks models else they're not loaded
-			pluginContext.addModels(new ResourceLocation("agricraft:block/wooden_crop_sticks"), new ResourceLocation("agricraft:block/iron_crop_sticks"), new ResourceLocation("agricraft:block/obsidian_crop_sticks"),
-					new ResourceLocation("agricraft:block/wooden_cross_crop_sticks"), new ResourceLocation("agricraft:block/iron_cross_crop_sticks"), new ResourceLocation("agricraft:block/obsidian_cross_crop_sticks"));
+			pluginContext.addModels(AgriApi.modLocation("block/wooden_crop_sticks"), AgriApi.modLocation("block/iron_crop_sticks"), AgriApi.modLocation("block/obsidian_crop_sticks"),
+					AgriApi.modLocation("block/wooden_cross_crop_sticks"), AgriApi.modLocation("block/iron_cross_crop_sticks"), AgriApi.modLocation("block/obsidian_cross_crop_sticks"));
 		});
 
 		BlockEntityRenderers.register(ModBlockEntityTypes.CROP.get(), CropBlockEntityRenderer::new);
@@ -63,8 +64,8 @@ public class AgriCraftFabricClient implements ClientModInitializer {
 		HudRenderCallback.EVENT.register((guiGraphics, partialTicks) -> {
 			MagnifyingGlassOverlay.renderOverlay(guiGraphics, partialTicks);
 		});
-		ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
-			if (stack.hasTag() && stack.getTag().getBoolean("magnifying")) {
+		ItemTooltipCallback.EVENT.register((stack, context, tooltipFlag, lines) -> {
+			if (stack.getOrDefault(ModDataComponents.MAGNIFYING.get(), false)) {
 				lines.add(1, Component.translatable("agricraft.tooltip.magnifying").withStyle(ChatFormatting.DARK_GRAY).withStyle(ChatFormatting.ITALIC));
 			}
 			AgriApi.getSoilRegistry().ifPresent(registry -> registry.forEach(soil -> {

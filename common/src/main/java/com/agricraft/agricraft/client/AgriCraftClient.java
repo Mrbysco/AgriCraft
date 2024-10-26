@@ -1,5 +1,6 @@
 package com.agricraft.agricraft.client;
 
+import com.agricraft.agricraft.api.AgriApi;
 import com.agricraft.agricraft.api.AgriClientApi;
 import com.agricraft.agricraft.client.tools.journal.drawers.FrontPageDrawer;
 import com.agricraft.agricraft.client.tools.journal.drawers.GeneticsPageDrawer;
@@ -17,7 +18,6 @@ import com.agricraft.agricraft.common.item.journal.MutationsPage;
 import com.agricraft.agricraft.common.item.journal.PlantPage;
 import com.agricraft.agricraft.common.registry.ModItems;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.resources.ResourceLocation;
 
 public class AgriCraftClient {
 
@@ -28,14 +28,14 @@ public class AgriCraftClient {
 		AgriClientApi.registerPageDrawer(GeneticsPage.ID, new GeneticsPageDrawer());
 		AgriClientApi.registerPageDrawer(PlantPage.ID, new PlantPageDrawer());
 		AgriClientApi.registerPageDrawer(MutationsPage.ID, new MutationPageDrawer());
-		ItemProperties.register(ModItems.TROWEL.get(), new ResourceLocation("agricraft:plant"), (itemStack, clientLevel, livingEntity, i) -> {
+		ItemProperties.register(ModItems.TROWEL.get(), AgriApi.modLocation("plant"), (itemStack, clientLevel, livingEntity, i) -> {
 			if (!itemStack.isEmpty() && itemStack.getItem() instanceof TrowelItem trowel && trowel.hasPlant(itemStack)) {
 				return 1;
 			} else {
 				return 0;
 			}
 		});
-		ItemProperties.register(ModItems.SEED_BAG.get(), new ResourceLocation("agricraft:seed_bag"), (itemStack, clientLevel, livingEntity, i) -> {
+		ItemProperties.register(ModItems.SEED_BAG.get(), AgriApi.modLocation("seed_bag"), (itemStack, clientLevel, livingEntity, i) -> {
 			if (!itemStack.isEmpty() && itemStack.getItem() instanceof SeedBagItem) {
 				if (SeedBagItem.isFilled(itemStack)) {
 					return 1;

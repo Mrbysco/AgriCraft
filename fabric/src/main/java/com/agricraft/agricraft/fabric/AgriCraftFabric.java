@@ -58,8 +58,8 @@ public class AgriCraftFabric implements ModInitializer {
 				String modid = mod.getMetadata().getId();
 				if (!modid.equals("minecraft") && !modid.equals("agricraft")) {
 					// don't use Fabric API internals, in order to stay compatible with Quilted Fabric API
-					ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation("builtin", "agricraft_resourcepacks_" + modid), "resourcepacks/" + modid, agricraft, true);
-					ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation("builtin", "agricraft_datapacks_" + modid), "datapacks/" + modid, agricraft, true);
+					ResourceManagerHelper.registerBuiltinResourcePack(ResourceLocation.fromNamespaceAndPath("builtin", "agricraft_resourcepacks_" + modid), "resourcepacks/" + modid, agricraft, true);
+					ResourceManagerHelper.registerBuiltinResourcePack(ResourceLocation.fromNamespaceAndPath("builtin", "agricraft_datapacks_" + modid), "datapacks/" + modid, agricraft, true);
 				}
 			}
 		});

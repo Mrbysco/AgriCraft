@@ -1,13 +1,14 @@
 package com.agricraft.agricraft.common.item.crafting;
 
+import com.agricraft.agricraft.common.datacomponent.ModDataComponents;
 import com.agricraft.agricraft.common.registry.ModItems;
 import com.agricraft.agricraft.common.registry.ModRecipeSerializers;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -24,12 +25,12 @@ public class MagnifyingHelmetRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public boolean matches(CraftingContainer container, Level level) {
+	public boolean matches(CraftingInput container, Level level) {
 		boolean helmet = false;
 		boolean glass = false;
-		for (int i = 0; i < container.getContainerSize(); i++) {
+		for (int i = 0; i < container.size(); i++) {
 			ItemStack itemStack = container.getItem(i);
-			if (itemStack.getItem() instanceof ArmorItem armorItem && armorItem.getEquipmentSlot() == EquipmentSlot.HEAD && (itemStack.getTag() == null || !itemStack.getTag().getBoolean("magnifying"))) {
+			if (itemStack.getItem() instanceof ArmorItem armorItem && armorItem.getEquipmentSlot() == EquipmentSlot.HEAD && (itemStack.getOrDefault(ModDataComponents.MAGNIFYING.get(), false))) {
 				if (helmet) {
 					return false;
 				} else {
@@ -48,10 +49,10 @@ public class MagnifyingHelmetRecipe extends CustomRecipe {
 
 	@NotNull
 	@Override
-	public ItemStack assemble(CraftingContainer container, RegistryAccess registryAccess) {
+	public ItemStack assemble(CraftingInput container, HolderLookup.Provider registryAccess) {
 		ItemStack helmet = null;
 		ItemStack glass = null;
-		for (int i = 0; i < container.getContainerSize(); i++) {
+		for (int i = 0; i < container.size(); i++) {
 			ItemStack itemStack = container.getItem(i);
 			if (itemStack.getItem() instanceof ArmorItem armorItem && armorItem.getEquipmentSlot() == EquipmentSlot.HEAD) {
 				helmet = itemStack;
@@ -61,7 +62,7 @@ public class MagnifyingHelmetRecipe extends CustomRecipe {
 		}
 		if (helmet != null && glass != null) {
 			ItemStack copy = helmet.copy();
-			copy.getOrCreateTag().putBoolean("magnifying", true);
+			copy.set(ModDataComponents.MAGNIFYING.get(), true);
 			return copy;
 		}
 		return ItemStack.EMPTY;

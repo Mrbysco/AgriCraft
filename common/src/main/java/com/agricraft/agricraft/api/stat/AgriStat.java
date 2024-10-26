@@ -4,7 +4,6 @@ import com.agricraft.agricraft.api.AgriRegistrable;
 import com.agricraft.agricraft.common.util.LangUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import org.joml.Vector3f;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;

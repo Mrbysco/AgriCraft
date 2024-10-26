@@ -2,13 +2,13 @@ package com.agricraft.agricraft.datagen;
 
 import com.agricraft.agricraft.api.AgriApi;
 import com.agricraft.agricraft.api.codecs.AgriMutation;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
 public class MutationsDatagen {
 
-	public static void registerMutations(BootstapContext<AgriMutation> context) {
+	public static void registerMutations(BootstrapContext<AgriMutation> context) {
 		mc(context, "allium", AgriMutation.builder().child("minecraft:allium").parents("minecraft:poppy", "minecraft:blue_orchid").chance(0.75).build());
 		mc(context, "azure_bluet", AgriMutation.builder().child("minecraft:azure_bluet").parents("minecraft:dandelion", "minecraft:lily_of_the_valley").chance(0.75).build());
 		mc(context, "bamboo", AgriMutation.builder().child("minecraft:bamboo").parents("minecraft:sugar_cane", "minecraft:cactus").chance(0.5).build());
@@ -58,7 +58,7 @@ public class MutationsDatagen {
 		agricraft(context, "redstodendron", AgriMutation.builder().child("agricraft:redstodendron").parents("agricraft:ferranium", "agricraft:lapender").chance(1.0).build());
 	}
 
-	public static void registerBiomesOPlenty(BootstapContext<AgriMutation> context) {
+	public static void registerBiomesOPlenty(BootstrapContext<AgriMutation> context) {
 		r(context, "biomesoplenty", "burning_blossom", new AgriMutation("biomesoplenty:burning_blossom", "minecraft:orange_tulip", "minecraft:red_tulip", 0.5));
 		r(context, "biomesoplenty", "glowflower", new AgriMutation("biomesoplenty:glowflower", "minecraft:lily_of_the_valley", "minecraft:blue_orchid", 0.5));
 		r(context, "biomesoplenty", "glowshroom", new AgriMutation("biomesoplenty:glowshroom", "minecraft:brown_mushroom", "minecraft:blue_orchid", 0.5));
@@ -73,11 +73,11 @@ public class MutationsDatagen {
 		r(context, "biomesoplenty", "wilted_lily", new AgriMutation("biomesoplenty:wilted_lily", "minecraft:lily_of_the_valley", "minecraft:brown_mushroom", 0.5));
 	}
 
-	public static void registerImmersiveEngineering(BootstapContext<AgriMutation> context) {
+	public static void registerImmersiveEngineering(BootstrapContext<AgriMutation> context) {
 		r(context, "immersiveengineering", "hemp", new AgriMutation("immersiveengineering:hemp", "minecraft:pumpkin", "minecraft:wheat", 0.5));
 	}
 
-	public static void registerPamsHarvestCraft2(BootstapContext<AgriMutation> context) {
+	public static void registerPamsHarvestCraft2(BootstrapContext<AgriMutation> context) {
 		pamhc2crops(context, "agave", "minecraft:cactus", "pamhc2crops:pineapple");
 		pamhc2crops(context, "amaranth", "pamhc2crops:chilipepper", "pamhc2crops:cranberry");
 		pamhc2crops(context, "arrowroot", "pamhc2crops:cassava", "pamhc2crops:taro");
@@ -177,19 +177,19 @@ public class MutationsDatagen {
 		pamhc2crops(context, "sunchoke", "pahmhc2crops:artichoke", "pahmhc2crops:parsnip");
 	}
 
-	private static void r(BootstapContext<AgriMutation> context, String modid, String mutationId, AgriMutation mutation) {
-		context.register(ResourceKey.create(AgriApi.AGRIMUTATIONS, new ResourceLocation(modid, mutationId)), mutation);
+	private static void r(BootstrapContext<AgriMutation> context, String modid, String mutationId, AgriMutation mutation) {
+		context.register(ResourceKey.create(AgriApi.AGRIMUTATIONS, ResourceLocation.fromNamespaceAndPath(modid, mutationId)), mutation);
 	}
 
-	private static void mc(BootstapContext<AgriMutation> context, String mutationId, AgriMutation mutation) {
+	private static void mc(BootstrapContext<AgriMutation> context, String mutationId, AgriMutation mutation) {
 		r(context, "minecraft", mutationId, mutation);
 	}
 
-	private static void agricraft(BootstapContext<AgriMutation> context, String mutationId, AgriMutation mutation) {
+	private static void agricraft(BootstrapContext<AgriMutation> context, String mutationId, AgriMutation mutation) {
 		r(context, "agricraft", mutationId, mutation);
 	}
 
-	private static void pamhc2crops(BootstapContext<AgriMutation> context, String name, String parent1, String parent2) {
+	private static void pamhc2crops(BootstrapContext<AgriMutation> context, String name, String parent1, String parent2) {
 		r(context, "pamhc2crops", name, new AgriMutation("pamhc2crops:" + name, parent1, parent2, 0.5));
 	}
 

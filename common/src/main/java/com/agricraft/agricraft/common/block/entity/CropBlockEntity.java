@@ -1,13 +1,13 @@
 package com.agricraft.agricraft.common.block.entity;
 
 import com.agricraft.agricraft.api.AgriApi;
-import com.agricraft.agricraft.api.crop.AgriGrowthStage;
-import com.agricraft.agricraft.api.fertilizer.AgriFertilizer;
-import com.agricraft.agricraft.api.plant.AgriPlant;
 import com.agricraft.agricraft.api.codecs.AgriSoil;
 import com.agricraft.agricraft.api.config.CoreConfig;
 import com.agricraft.agricraft.api.crop.AgriCrop;
+import com.agricraft.agricraft.api.crop.AgriGrowthStage;
+import com.agricraft.agricraft.api.fertilizer.AgriFertilizer;
 import com.agricraft.agricraft.api.genetic.AgriGenome;
+import com.agricraft.agricraft.api.plant.AgriPlant;
 import com.agricraft.agricraft.api.plant.AgriWeed;
 import com.agricraft.agricraft.api.requirement.AgriGrowthConditionRegistry;
 import com.agricraft.agricraft.api.requirement.AgriGrowthResponse;
@@ -19,6 +19,7 @@ import com.agricraft.agricraft.common.registry.ModBlockEntityTypes;
 import com.agricraft.agricraft.common.util.LangUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -62,8 +63,8 @@ public class CropBlockEntity extends BlockEntity implements AgriCrop, Magnifying
 	}
 
 	@Override
-	public void load(CompoundTag tag) {
-		super.load(tag);
+	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		super.loadAdditional(tag, registries);
 		boolean hasPlant = tag.getBoolean("hasPlant");
 		if (hasPlant) {
 			this.genome = AgriGenome.fromNBT(tag);
@@ -92,8 +93,8 @@ public class CropBlockEntity extends BlockEntity implements AgriCrop, Magnifying
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag) {
-		super.saveAdditional(tag);
+	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+		super.saveAdditional(tag, registries);
 		if (this.hasPlant()) {
 			tag.putBoolean("hasPlant", true);
 			genome.writeToNBT(tag);
@@ -114,8 +115,8 @@ public class CropBlockEntity extends BlockEntity implements AgriCrop, Magnifying
 
 	@NotNull
 	@Override
-	public CompoundTag getUpdateTag() {
-		return this.saveWithoutMetadata();
+	public CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+		return this.saveWithoutMetadata(provider);
 	}
 
 	@Nullable

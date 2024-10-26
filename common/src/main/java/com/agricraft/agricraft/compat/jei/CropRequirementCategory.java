@@ -2,9 +2,9 @@ package com.agricraft.agricraft.compat.jei;
 
 import com.agricraft.agricraft.api.AgriApi;
 import com.agricraft.agricraft.api.AgriClientApi;
+import com.agricraft.agricraft.api.codecs.AgriSoilCondition;
 import com.agricraft.agricraft.api.crop.AgriGrowthStage;
 import com.agricraft.agricraft.api.plant.AgriPlant;
-import com.agricraft.agricraft.api.codecs.AgriSoilCondition;
 import com.agricraft.agricraft.api.requirement.AgriGrowthConditionRegistry;
 import com.agricraft.agricraft.api.requirement.AgriSeason;
 import com.agricraft.agricraft.common.item.AgriSeedItem;
@@ -44,11 +44,11 @@ import java.util.function.BooleanSupplier;
 
 public class CropRequirementCategory implements IRecipeCategory<CropRequirementCategory.Recipe> {
 
-	public static final ResourceLocation ID = new ResourceLocation(AgriApi.MOD_ID, "jei/requirement");
+	public static final ResourceLocation ID = AgriApi.modLocation("jei/requirement");
 	public static final RecipeType<CropRequirementCategory.Recipe> TYPE = new RecipeType<>(ID, CropRequirementCategory.Recipe.class);
-	public static final IDrawable BACKGROUND = AgriCraftJeiPlugin.createDrawable(new ResourceLocation(AgriApi.MOD_ID, "textures/gui/jei/crop_requirement.png"), 0, 0, 128, 128, 128, 128);
-	public static final ResourceLocation COMPONENTS = new ResourceLocation(AgriApi.MOD_ID, "textures/gui/jei/crop_requirement_components.png");
-	public static final ResourceLocation GUI_COMPONENTS = new ResourceLocation(AgriApi.MOD_ID, "textures/gui/gui_components.png");
+	public static final IDrawable BACKGROUND = AgriCraftJeiPlugin.createDrawable(AgriApi.modLocation("textures/gui/jei/crop_requirement.png"), 0, 0, 128, 128, 128, 128);
+	public static final ResourceLocation COMPONENTS = AgriApi.modLocation("textures/gui/jei/crop_requirement_components.png");
+	public static final ResourceLocation GUI_COMPONENTS = AgriApi.modLocation("textures/gui/gui_components.png");
 	public static final int[] HUMIDITY_OFFSETS = {8, 8, 10, 10, 10, 7};
 	public static final int[] ACIDITY_OFFSETS = {7, 8, 7, 8, 8, 8, 6};
 	public static final int[] NUTRIENTS_OFFSETS = {6, 8, 9, 9, 11, 10};

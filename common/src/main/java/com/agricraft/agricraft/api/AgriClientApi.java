@@ -4,6 +4,7 @@ import com.agricraft.agricraft.api.tools.journal.JournalPageDrawer;
 import com.agricraft.agricraft.api.tools.journal.JournalPageDrawers;
 import com.agricraft.agricraft.api.tools.magnifying.MagnifyingInspector;
 import com.agricraft.agricraft.client.gui.MagnifyingGlassOverlay;
+import com.agricraft.agricraft.common.util.PlatformClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -17,7 +18,7 @@ import java.util.function.Predicate;
  */
 public final class AgriClientApi {
 
-	private static final ModelResourceLocation AIR_MODEL = new ModelResourceLocation("minecraft", "air", "");
+	private static final ModelResourceLocation AIR_MODEL = ModelResourceLocation.vanilla("air", "");
 	private static final String UNKNOWN_SEED = "agricraft:unknown";
 	private static final String UNKNOWN_PLANT = "agricraft:crop/unknown";
 
@@ -47,15 +48,15 @@ public final class AgriClientApi {
 	public static BakedModel getPlantModel(String plantId, int stage) {
 		if (plantId.isEmpty()) {
 			// somehow there is no plant, display nothing
-			return Minecraft.getInstance().getModelManager().bakedRegistry.get(AIR_MODEL);
+			return PlatformClient.get().getBakedModel(AIR_MODEL);
 		} else {
 			// compute the block model from the plant id and growth stage
 			// will look like <namespace>:crop/<id>_stage<growth_stage> so the file is assets/<namespace>/models/crop/<id>_stage<growth_stage>.json
 			String plant = plantId.replace(":", ":crop/") + "_stage" + stage;
-			BakedModel model = Minecraft.getInstance().getModelManager().bakedRegistry.get(new ResourceLocation(plant));
+			BakedModel model = PlatformClient.get().getBakedModel(ResourceLocation.tryParse(plant));
 			if (model == null) {
 				// model not found, default to the unknown crop model that should always be present
-				return Minecraft.getInstance().getModelManager().bakedRegistry.get(new ResourceLocation(UNKNOWN_PLANT));
+				return PlatformClient.get().getBakedModel(ResourceLocation.tryParse(UNKNOWN_PLANT));
 			}
 			return model;
 		}
@@ -64,15 +65,15 @@ public final class AgriClientApi {
 	public static BakedModel getWeedModel(String weedId, int stage) {
 		if (weedId.isEmpty()) {
 			// somehow there is no plant, display nothing
-			return Minecraft.getInstance().getModelManager().bakedRegistry.get(AIR_MODEL);
+			return PlatformClient.get().getBakedModel(AIR_MODEL);
 		} else {
 			// compute the block model from the plant id and growth stage
 			// will look like <namespace>:weed/<id>_stage<growth_stage> so the file is assets/<namespace>/models/weed/<id>_stage<growth_stage>.json
 			String plant = weedId.replace(":", ":weed/") + "_stage" + stage;
-			BakedModel model = Minecraft.getInstance().getModelManager().bakedRegistry.get(new ResourceLocation(plant));
+			BakedModel model = PlatformClient.get().getBakedModel(ResourceLocation.tryParse(plant));
 			if (model == null) {
 				// model not found, default to the unknown crop model that should always be present
-				return Minecraft.getInstance().getModelManager().bakedRegistry.get(new ResourceLocation(UNKNOWN_PLANT));
+				return PlatformClient.get().getBakedModel(ResourceLocation.tryParse(UNKNOWN_PLANT));
 			}
 			return model;
 		}
@@ -85,7 +86,7 @@ public final class AgriClientApi {
 		// compute the model of the seed from the plant id. the seed model path will look like <namespace>:seed/<id> so the file is /assets/<namespace>/models/seed/<id>.json
 		plantId = plantId.replace(":", ":seed/");
 
-		BakedModel model = Minecraft.getInstance().getModelManager().bakedRegistry.get(new ResourceLocation(plantId));
+		BakedModel model = PlatformClient.get().getBakedModel(ResourceLocation.tryParse(plantId));
 		if (model == null) {
 			// model not found, defaults to the missing model
 			model = Minecraft.getInstance().getModelManager().getMissingModel();

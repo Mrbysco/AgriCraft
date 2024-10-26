@@ -5,6 +5,7 @@ import com.agricraft.agricraft.api.tools.journal.JournalData;
 import com.agricraft.agricraft.api.tools.journal.JournalPage;
 import com.agricraft.agricraft.client.ClientUtil;
 import com.agricraft.agricraft.common.block.entity.SeedAnalyzerBlockEntity;
+import com.agricraft.agricraft.common.datacomponent.ModDataComponents;
 import com.agricraft.agricraft.common.item.journal.EmptyPage;
 import com.agricraft.agricraft.common.item.journal.FrontPage;
 import com.agricraft.agricraft.common.item.journal.GeneticsPage;
@@ -13,10 +14,6 @@ import com.agricraft.agricraft.common.item.journal.IntroductionPage;
 import com.agricraft.agricraft.common.item.journal.MutationsPage;
 import com.agricraft.agricraft.common.item.journal.PlantPage;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -28,7 +25,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -75,27 +71,26 @@ public class JournalItem extends Item {
 	@Override
 	public ItemStack getDefaultInstance() {
 		ItemStack stack = new ItemStack(this);
-//		researchPlant(stack, new ResourceLocation("minecraft:wheat"));
+//		researchPlant(stack, ResourceLocation.withDefaultNamespace("wheat"));
 		return stack;
 	}
 
 	public static void researchPlant(ItemStack journal, ResourceLocation plantId) {
-		CompoundTag tag = journal.getOrCreateTag();
-		StringTag idTag = StringTag.valueOf(plantId.toString());
-		if (tag.contains("plants")) {
-			ListTag plants = tag.getList("plants", Tag.TAG_STRING);
-			if (!plants.contains(idTag)) {
-				plants.add(idTag);
+		String id = plantId.toString();
+		if (journal.has(ModDataComponents.PLANTS.get())) {
+			List<String> plants = journal.get(ModDataComponents.PLANTS.get());
+			if (!plants.contains(id)) {
+				plants.add(id);
 			}
 		} else {
-			ListTag plants = new ListTag();
-			plants.add(idTag);
-			tag.put("plants", plants);
+			List<String> plants = new ArrayList<>();
+			plants.add(id);
+			journal.set(ModDataComponents.PLANTS.get(), plants);
 		}
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
 		tooltipComponents.add(Component.translatable("agricraft.tooltip.journal", getResearchedPlants(stack)).withStyle(ChatFormatting.GRAY));
 	}
 
@@ -104,11 +99,10 @@ public class JournalItem extends Item {
 	}
 
 	public static int getResearchedPlants(ItemStack journal) {
-		CompoundTag tag = journal.getTag();
-		if (tag == null || !tag.contains("plants")) {
+		if (!journal.has(ModDataComponents.PLANTS.get())) {
 			return 0;
 		}
-		return tag.getList("plants", Tag.TAG_STRING).size();
+		return journal.get(ModDataComponents.PLANTS.get()).size();
 	}
 
 	public static class Data implements JournalData {
@@ -119,11 +113,10 @@ public class JournalItem extends Item {
 		public Data(ItemStack journalStack) {
 			this.plants = new ArrayList<>();
 			this.pages = new ArrayList<>();
-			CompoundTag tag = journalStack.getTag();
-			if (tag != null && tag.contains("plants")) {
-				ListTag list = tag.getList("plants", Tag.TAG_STRING);
-				for (Tag plantTag : list) {
-					ResourceLocation plantId = new ResourceLocation(plantTag.getAsString());
+			if (journalStack.has(ModDataComponents.PLANTS.get())) {
+				List<String> list = journalStack.get(ModDataComponents.PLANTS.get());
+				for (String plant : list) {
+					ResourceLocation plantId = ResourceLocation.tryParse(plant);
 					if (AgriApi.getPlant(plantId).isPresent()) {
 						plants.add(plantId);
 					}

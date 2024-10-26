@@ -93,8 +93,8 @@ public class AgriWeed {
 							List<Item> possible = Platform.get().getItemsFromLocation(product.item());
 							Item item = possible.get(random.nextInt(possible.size()));
 							ItemStack itemStack = new ItemStack(item, product.getAmount(random));
-							if (!product.nbt().isEmpty()) {
-								itemStack.getOrCreateTag().merge(product.nbt());
+							if (!product.components().isEmpty()) {
+								itemStack.applyComponents(product.components());
 							}
 							consumer.accept(itemStack);
 						});

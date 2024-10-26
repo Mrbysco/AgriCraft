@@ -20,7 +20,7 @@ public record AgriMutation(ResourceLocation child, ResourceLocation parent1, Res
 	).apply(instance, AgriMutation::new));
 
 	public AgriMutation(String child, String parent1, String parent2, double chance) {
-		this(new ResourceLocation(child), new ResourceLocation(parent1), new ResourceLocation(parent2), chance);
+		this(ResourceLocation.tryParse(child), ResourceLocation.tryParse(parent1), ResourceLocation.tryParse(parent2), chance);
 	}
 
 	public Optional<AgriPlant> getParent1() {
@@ -60,7 +60,7 @@ public record AgriMutation(ResourceLocation child, ResourceLocation parent1, Res
 		}
 
 		public Builder child(String child) {
-			this.child = new ResourceLocation(child);
+			this.child = ResourceLocation.tryParse(child);
 			return this;
 		}
 
@@ -70,7 +70,7 @@ public record AgriMutation(ResourceLocation child, ResourceLocation parent1, Res
 		}
 
 		public Builder parent1(String parent1) {
-			this.parent1 = new ResourceLocation(parent1);
+			this.parent1 = ResourceLocation.tryParse(parent1);
 			return this;
 		}
 
@@ -80,7 +80,7 @@ public record AgriMutation(ResourceLocation child, ResourceLocation parent1, Res
 		}
 
 		public Builder parent2(String parent2) {
-			this.parent2 = new ResourceLocation(parent2);
+			this.parent2 = ResourceLocation.tryParse(parent2);
 			return this;
 		}
 
@@ -90,8 +90,8 @@ public record AgriMutation(ResourceLocation child, ResourceLocation parent1, Res
 		}
 
 		public Builder parents(String parent1, String parent2) {
-			this.parent1 = new ResourceLocation(parent1);
-			this.parent2 = new ResourceLocation(parent2);
+			this.parent1 = ResourceLocation.tryParse(parent1);
+			this.parent2 = ResourceLocation.tryParse(parent2);
 			return this;
 		}
 

@@ -9,8 +9,11 @@ import com.agricraft.agricraft.common.util.ExtraDataMenuProvider;
 import com.agricraft.agricraft.common.util.Platform;
 import com.agricraft.agricraft.common.util.PlatformRegistry;
 import com.agricraft.agricraft.fabric.AgriCraftFabric;
+import io.netty.buffer.ByteBufUtil;
+import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.loader.api.FabricLoader;
@@ -24,6 +27,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -45,6 +49,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
@@ -141,15 +146,24 @@ public class FabricPlatform extends Platform {
 
 	@Override
 	public <T extends AbstractContainerMenu> MenuType<T> createMenuType(Platform.MenuFactory<T> factory) {
-		return new ExtendedScreenHandlerType<>(factory::create);
+		return new ExtendedScreenHandlerType<>((syncId, inventory, data) -> { //TODO: Check if this is the correct replacement
+			FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.wrappedBuffer(data));
+			T menu = factory.create(syncId, inventory, buf);
+			buf.release();
+			return menu;
+		}, ByteBufCodecs.BYTE_ARRAY.mapStream(Function.identity()));
 	}
 
 	@Override
 	public void openMenu(ServerPlayer player, ExtraDataMenuProvider provider) {
-		player.openMenu(new ExtendedScreenHandlerFactory() {
+		player.openMenu(new ExtendedScreenHandlerFactory<byte[]>() {
 			@Override
-			public void writeScreenOpeningData(ServerPlayer player, FriendlyByteBuf buf) {
+			public byte[] getScreenOpeningData(ServerPlayer player) { //TODO: Check if this is the correct replacement
+				FriendlyByteBuf buf = PacketByteBufs.create();
 				provider.writeExtraData(player, buf);
+				byte[] bytes = ByteBufUtil.getBytes(buf);
+				buf.release();
+				return bytes;
 			}
 
 			@Override

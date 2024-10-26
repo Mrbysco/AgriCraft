@@ -37,7 +37,7 @@ public record AgriSoilVariant(ExtraCodecs.TagOrElementLocation block, List<Strin
 
 	public static class Builder {
 
-		ExtraCodecs.TagOrElementLocation block = new ExtraCodecs.TagOrElementLocation(new ResourceLocation("minecraft", "air"), false);
+		ExtraCodecs.TagOrElementLocation block = new ExtraCodecs.TagOrElementLocation(ResourceLocation.withDefaultNamespace("air"), false);
 		List<String> states = new ArrayList<>();
 
 		public AgriSoilVariant build() {
@@ -45,22 +45,22 @@ public record AgriSoilVariant(ExtraCodecs.TagOrElementLocation block, List<Strin
 		}
 
 		public Builder block(String location) {
-			this.block = new ExtraCodecs.TagOrElementLocation(new ResourceLocation(location), false);
+			this.block = new ExtraCodecs.TagOrElementLocation(ResourceLocation.tryParse(location), false);
 			return this;
 		}
 
 		public Builder block(String namespace, String path) {
-			this.block = new ExtraCodecs.TagOrElementLocation(new ResourceLocation(namespace, path), false);
+			this.block = new ExtraCodecs.TagOrElementLocation(ResourceLocation.fromNamespaceAndPath(namespace, path), false);
 			return this;
 		}
 
 		public Builder tag(String location) {
-			this.block = new ExtraCodecs.TagOrElementLocation(new ResourceLocation(location), true);
+			this.block = new ExtraCodecs.TagOrElementLocation(ResourceLocation.tryParse(location), true);
 			return this;
 		}
 
 		public Builder tag(String namespace, String path) {
-			this.block = new ExtraCodecs.TagOrElementLocation(new ResourceLocation(namespace, path), true);
+			this.block = new ExtraCodecs.TagOrElementLocation(ResourceLocation.fromNamespaceAndPath(namespace, path), true);
 			return this;
 		}
 

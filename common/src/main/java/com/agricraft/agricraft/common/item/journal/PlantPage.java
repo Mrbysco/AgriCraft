@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 public class PlantPage implements JournalPage {
 
-	public static final ResourceLocation ID = new ResourceLocation(AgriApi.MOD_ID, "plant_page");
+	public static final ResourceLocation ID = AgriApi.modLocation("plant_page");
 
 	private final AgriPlant plant;
 	private final List<ResourceLocation> researched;

@@ -4,6 +4,7 @@ import com.agricraft.agricraft.api.AgriApi;
 import com.agricraft.agricraft.api.genetic.AgriGenome;
 import com.agricraft.agricraft.common.block.SeedAnalyzerBlock;
 import com.agricraft.agricraft.common.block.entity.SeedAnalyzerBlockEntity;
+import com.agricraft.agricraft.common.datacomponent.ModDataComponents;
 import com.agricraft.agricraft.common.item.AgriSeedItem;
 import com.agricraft.agricraft.common.item.JournalItem;
 import com.agricraft.agricraft.common.registry.ModMenus;
@@ -40,7 +41,7 @@ public class SeedAnalyzerMenu extends AbstractContainerMenu {
 				super.set(stack);
 				if (analyzer.hasJournal() && !stack.isEmpty()) {
 					ItemStack journal = analyzer.getJournal();
-					JournalItem.researchPlant(journal, new ResourceLocation(AgriSeedItem.getSpecies(stack)));
+					JournalItem.researchPlant(journal, ResourceLocation.tryParse(AgriSeedItem.getSpecies(stack)));
 				}
 			}
 
@@ -120,7 +121,7 @@ public class SeedAnalyzerMenu extends AbstractContainerMenu {
 		if (seed.isEmpty()) {
 			return Optional.empty();
 		}
-		AgriGenome genome = AgriGenome.fromNBT(seed.getTag());
+		AgriGenome genome = AgriGenome.fromNBT(seed.get(ModDataComponents.GENOME.get()));
 		return Optional.ofNullable(genome);
 	}
 

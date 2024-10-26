@@ -9,6 +9,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
@@ -43,6 +45,16 @@ public class FabricPlatformClient extends PlatformClient {
 		RenderType type = getEntityRenderType(RenderType.cutoutMipped(), true);
 		VertexConsumer consumer = ItemRenderer.getFoilBuffer(buffer, type, true, glint);
 		renderer.renderModelLists(model, stack, packedLight, packedOverlay, poseStack, consumer);
+	}
+
+	@Override
+	public BakedModel getBakedModel(ResourceLocation modelId) {
+		return Minecraft.getInstance().getModelManager().getModel(modelId);
+	}
+
+	@Override
+	public BakedModel getBakedModel(ModelResourceLocation modelId) {
+		return Minecraft.getInstance().getModelManager().getModel(modelId.id());
 	}
 
 }

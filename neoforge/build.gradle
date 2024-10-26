@@ -50,8 +50,8 @@ dependencies {
 
 	modImplementation "curse.maven:jade-324717:$jade_neoforge_version"  // Jade-1.20.4-neoforge-13.3.1
 
-//	modLocalRuntime "curse.maven:serene-seasons-291874:5073504"  // Serene Seasons 1.20.4-9.3.0.17
-//	modLocalRuntime "curse.maven:glitchcore-955399:5088441"  // GlitchCore 1.20.4-1.0.0.59 (serene season dep)
+	modLocalRuntime "curse.maven:serene-seasons-291874:5753503"  // Serene Seasons 1.21.1-10.1.0.1
+	modLocalRuntime "curse.maven:glitchcore-955399:5660740"  // GlitchCore 1.21.1-2.1.0.0 (Serene Season dep)
 }
 
 shadowJar {

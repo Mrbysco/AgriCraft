@@ -1,14 +1,13 @@
 package com.agricraft.agricraft.api.genetic;
 
+import com.agricraft.agricraft.api.plant.AgriPlant;
 import com.agricraft.agricraft.api.stat.AgriStat;
 import com.agricraft.agricraft.api.stat.AgriStatRegistry;
-import com.agricraft.agricraft.api.plant.AgriPlant;
+import com.agricraft.agricraft.common.datacomponent.ModDataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,11 +38,8 @@ public class AgriGenome {
 		}
 	}
 
-	public static AgriGenome fromNBT(CompoundTag tag) {
-		if (tag == null || !tag.contains("genes")) {
-			return null;
-		}
-		CompoundTag genes = tag.getCompound("genes");
+	public static AgriGenome fromNBT(CompoundTag genes) {
+		if (genes == null) return null;
 		AgriGenePair<String> species = AgriGeneRegistry.getInstance().getGeneSpecies().readFromNBT(genes);
 		List<AgriGenePair<Integer>> stats = new ArrayList<>();
 		for (AgriStat stat : AgriStatRegistry.getInstance()) {
@@ -52,8 +48,8 @@ public class AgriGenome {
 		return new AgriGenome(species, stats);
 	}
 
-	public static void removeFromNBT(CompoundTag tag) {
-		tag.remove("genes");
+	public static void removeFromNBT(ItemStack stack) {
+		stack.remove(ModDataComponents.GENOME.get());
 	}
 
 	public AgriGenePair<String> getSpeciesGene() {
@@ -93,12 +89,10 @@ public class AgriGenome {
 	}
 
 	public void writeToNBT(CompoundTag tag) {
-		CompoundTag genes = new CompoundTag();
-		species.getGene().writeToNBT(genes, species.getDominant(), species.getRecessive());
+		species.getGene().writeToNBT(tag, species.getDominant(), species.getRecessive());
 		for (AgriGenePair<Integer> statPair : stats.values()) {
-			statPair.getGene().writeToNBT(genes, statPair.getDominant(), statPair.getRecessive());
+			statPair.getGene().writeToNBT(tag, statPair.getDominant(), statPair.getRecessive());
 		}
-		tag.put("genes", genes);
 	}
 
 	@Override

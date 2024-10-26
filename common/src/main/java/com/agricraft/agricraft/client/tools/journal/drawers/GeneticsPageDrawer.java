@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class GeneticsPageDrawer implements JournalPageDrawer<GeneticsPage> {
 
-	private final ResourceLocation DNA_SCHEMATIC = new ResourceLocation(AgriApi.MOD_ID, "textures/gui/journal/dna_schematic.png");
+	private final ResourceLocation DNA_SCHEMATIC = AgriApi.modLocation("textures/gui/journal/dna_schematic.png");
 
 	private final Component CROP_BREEDING = Component.translatable("agricraft.journal.crop_breeding");
 	private final Component PARAGRAPH_L_1 = Component.translatable("agricraft.journal.crop_breeding.paragraph_1");

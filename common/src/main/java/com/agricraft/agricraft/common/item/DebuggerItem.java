@@ -20,18 +20,18 @@ public class DebuggerItem extends Item {
 		BlockPos pos = context.getClickedPos();
 		System.out.println("side: " + (level.isClientSide?"client":"server"));
 		if (level.getBlockEntity(pos) instanceof SeedAnalyzerBlockEntity analyzer) {
-			System.out.println("  tag: " + analyzer.saveWithoutMetadata());
+			System.out.println("  tag: " + analyzer.saveWithoutMetadata(level.registryAccess()));
 			System.out.println("  hasSeed: " + analyzer.hasSeed());
 			if (analyzer.hasSeed()) {
-				System.out.println("    seed: " + analyzer.getSeed() + " " + analyzer.getSeed().getTag());
+				System.out.println("    seed: " + analyzer.getSeed() + " " + analyzer.getSeed());
 			}
 			System.out.println("  hasJournal: " + analyzer.hasJournal());
 			if (analyzer.hasJournal()) {
-				System.out.println("    journal: " + analyzer.getJournal() + " " + analyzer.getJournal().getTag());
+				System.out.println("    journal: " + analyzer.getJournal() + " " + analyzer.getJournal());
 			}
 		}
 		if (level.getBlockEntity(pos) instanceof CropBlockEntity crop) {
-			System.out.println("  tag: " + crop.saveWithoutMetadata());
+			System.out.println("  tag: " + crop.saveWithoutMetadata(level.registryAccess()));
 			System.out.println("  plant id: " + crop.getPlantId());
 			System.out.println("  plant: " + crop.getPlant());
 		}

@@ -1,5 +1,6 @@
 package com.agricraft.agricraft.datagen;
 
+import com.agricraft.agricraft.api.AgriApi;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -22,81 +23,81 @@ public class ModBlockTagProvider extends BlockTagsProvider {
     protected void addTags(HolderLookup.Provider provider) {
         // Cross-Compatibility
         //     Plants (blocks)
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/aluminium")))
-                .addOptionalTag(new ResourceLocation("c:aluminum_ores"))
-                .addOptionalTag(new ResourceLocation("c:aluminium_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/aluminum"))
-                .addOptionalTag(new ResourceLocation("forge:ores/aluminium"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/coal")))
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/aluminium")))
+                .addOptionalTag(ResourceLocation.tryParse("c:aluminum_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:aluminium_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/aluminum"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/aluminium"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/coal")))
                 .add(Blocks.COAL_ORE)
                 .add(Blocks.DEEPSLATE_COAL_ORE)
-                .addOptionalTag(new ResourceLocation("minecraft:coal_ores"))
-                .addOptionalTag(new ResourceLocation("c:coal_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/coal"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/copper")))
+                .addOptionalTag(ResourceLocation.tryParse("minecraft:coal_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:coal_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/coal"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/copper")))
                 .add(Blocks.COPPER_ORE)
                 .add(Blocks.DEEPSLATE_COPPER_ORE)
-                .addOptionalTag(new ResourceLocation("minecraft:copper_ores"))
-                .addOptionalTag(new ResourceLocation("c:copper_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/copper"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/diamond")))
+                .addOptionalTag(ResourceLocation.tryParse("minecraft:copper_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:copper_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/copper"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/diamond")))
                 .add(Blocks.DIAMOND_ORE)
                 .add(Blocks.DEEPSLATE_DIAMOND_ORE)
-                .addOptionalTag(new ResourceLocation("minecraft:diamond_ores"))
-                .addOptionalTag(new ResourceLocation("c:diamond_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/diamond"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/emerald")))
+                .addOptionalTag(ResourceLocation.tryParse("minecraft:diamond_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:diamond_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/diamond"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/emerald")))
                 .add(Blocks.EMERALD_ORE)
                 .add(Blocks.DEEPSLATE_EMERALD_ORE)
-                .addOptionalTag(new ResourceLocation("minecraft:emerald_ores"))
-                .addOptionalTag(new ResourceLocation("c:emerald_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/emerald"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/gold")))
+                .addOptionalTag(ResourceLocation.tryParse("minecraft:emerald_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:emerald_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/emerald"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/gold")))
                 .add(Blocks.GOLD_ORE)
                 .add(Blocks.DEEPSLATE_GOLD_ORE)
-                .addOptionalTag(new ResourceLocation("minecraft:gold_ores"))
-                .addOptionalTag(new ResourceLocation("c:gold_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/gold"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/iron")))
+                .addOptionalTag(ResourceLocation.tryParse("minecraft:gold_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:gold_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/gold"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/iron")))
                 .add(Blocks.IRON_ORE)
                 .add(Blocks.DEEPSLATE_IRON_ORE)
-                .addOptionalTag(new ResourceLocation("minecraft:iron_ores"))
-                .addOptionalTag(new ResourceLocation("c:iron_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/iron"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/lapis")))
+                .addOptionalTag(ResourceLocation.tryParse("minecraft:iron_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:iron_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/iron"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/lapis")))
                 .add(Blocks.LAPIS_ORE)
                 .add(Blocks.DEEPSLATE_LAPIS_ORE)
-                .addOptionalTag(new ResourceLocation("minecraft:lapis_ores"))
-                .addOptionalTag(new ResourceLocation("c:lapis_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/lapis"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/lead")))
-                .addOptionalTag(new ResourceLocation("c:lead_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/lead"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/netherite_scrap")))
+                .addOptionalTag(ResourceLocation.tryParse("minecraft:lapis_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:lapis_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/lapis"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/lead")))
+                .addOptionalTag(ResourceLocation.tryParse("c:lead_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/lead"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/netherite_scrap")))
                 .add(Blocks.ANCIENT_DEBRIS)
-                .addOptionalTag(new ResourceLocation("c:netherite_scrap_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/netherite_scrap"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/nickel")))
-                .addOptionalTag(new ResourceLocation("c:nickel_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/nickel"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/osmium")))
-                .addOptionalTag(new ResourceLocation("c:osmium_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/osmium"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/platinum")))
-                .addOptionalTag(new ResourceLocation("c:platinum_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/platinum"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/quartz")))
+                .addOptionalTag(ResourceLocation.tryParse("c:netherite_scrap_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/netherite_scrap"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/nickel")))
+                .addOptionalTag(ResourceLocation.tryParse("c:nickel_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/nickel"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/osmium")))
+                .addOptionalTag(ResourceLocation.tryParse("c:osmium_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/osmium"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/platinum")))
+                .addOptionalTag(ResourceLocation.tryParse("c:platinum_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/platinum"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/quartz")))
                 .add(Blocks.NETHER_QUARTZ_ORE)
-                .addOptionalTag(new ResourceLocation("c:quartz_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/quartz"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/redstone")))
+                .addOptionalTag(ResourceLocation.tryParse("c:quartz_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/quartz"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/redstone")))
                 .add(Blocks.REDSTONE_ORE)
                 .add(Blocks.DEEPSLATE_REDSTONE_ORE)
-                .addOptionalTag(new ResourceLocation("c:redstone_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/redstone"));
-        this.tag(TagKey.create(Registries.BLOCK, new ResourceLocation("agricraft:ores/tin")))
-                .addOptionalTag(new ResourceLocation("c:tin_ores"))
-                .addOptionalTag(new ResourceLocation("forge:ores/tin"));
+                .addOptionalTag(ResourceLocation.tryParse("c:redstone_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/redstone"));
+        this.tag(TagKey.create(Registries.BLOCK, AgriApi.modLocation("ores/tin")))
+                .addOptionalTag(ResourceLocation.tryParse("c:tin_ores"))
+                .addOptionalTag(ResourceLocation.tryParse("c:ores/tin"));
     }
 
 }

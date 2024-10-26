@@ -3,12 +3,14 @@ package com.agricraft.agricraft.api.config;
 import com.teamresourceful.resourcefulconfig.api.annotations.Category;
 import com.teamresourceful.resourcefulconfig.api.annotations.Comment;
 import com.teamresourceful.resourcefulconfig.api.annotations.ConfigEntry;
+import com.teamresourceful.resourcefulconfig.api.annotations.ConfigInfo;
 import com.teamresourceful.resourcefulconfig.api.annotations.ConfigOption;
 import com.teamresourceful.resourcefulconfig.api.types.options.EntryType;
 
 /**
  * Agricraft configuration category related to statistics.
  */
+@ConfigInfo(titleTranslation = "config.agricraft.stats")
 @Category("config.agricraft.stats")
 public final class StatsConfig {
 

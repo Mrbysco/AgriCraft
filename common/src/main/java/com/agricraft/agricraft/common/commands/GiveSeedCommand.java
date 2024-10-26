@@ -1,12 +1,12 @@
 package com.agricraft.agricraft.common.commands;
 
 import com.agricraft.agricraft.api.AgriApi;
-import com.agricraft.agricraft.api.plant.AgriPlant;
 import com.agricraft.agricraft.api.genetic.AgriAllele;
 import com.agricraft.agricraft.api.genetic.AgriGene;
 import com.agricraft.agricraft.api.genetic.AgriGenePair;
 import com.agricraft.agricraft.api.genetic.AgriGeneRegistry;
 import com.agricraft.agricraft.api.genetic.AgriGenome;
+import com.agricraft.agricraft.api.plant.AgriPlant;
 import com.agricraft.agricraft.api.stat.AgriStat;
 import com.agricraft.agricraft.api.stat.AgriStatRegistry;
 import com.agricraft.agricraft.common.item.AgriSeedItem;

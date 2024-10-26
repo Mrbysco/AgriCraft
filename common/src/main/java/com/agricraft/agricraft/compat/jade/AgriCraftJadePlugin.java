@@ -10,7 +10,12 @@ import com.agricraft.agricraft.common.util.LangUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import snownee.jade.api.*;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.IBlockComponentProvider;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.IWailaClientRegistration;
+import snownee.jade.api.IWailaPlugin;
+import snownee.jade.api.WailaPlugin;
 import snownee.jade.api.config.IPluginConfig;
 
 import java.util.Comparator;
@@ -29,7 +34,7 @@ public class AgriCraftJadePlugin implements IWailaPlugin {
 
 		public static final CropBlockComponentProvider INSTANCE = new CropBlockComponentProvider();
 
-		private static final ResourceLocation ID = new ResourceLocation(AgriApi.MOD_ID, "crop_block");
+		private static final ResourceLocation ID = AgriApi.modLocation("crop_block");
 
 		private CropBlockComponentProvider() {
 		}
@@ -75,7 +80,7 @@ public class AgriCraftJadePlugin implements IWailaPlugin {
 
 		public static final SoilComponentProvider INSTANCE = new SoilComponentProvider();
 
-		private static final ResourceLocation ID = new ResourceLocation(AgriApi.MOD_ID, "soil");
+		private static final ResourceLocation ID = AgriApi.modLocation("soil");
 
 		private SoilComponentProvider() {
 		}

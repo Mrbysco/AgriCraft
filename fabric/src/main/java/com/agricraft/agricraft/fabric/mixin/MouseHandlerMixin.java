@@ -1,5 +1,6 @@
 package com.agricraft.agricraft.fabric.mixin;
 
+import com.agricraft.agricraft.common.datacomponent.ModDataComponents;
 import com.agricraft.agricraft.common.item.SeedBagItem;
 import com.agricraft.agricraft.common.registry.ModItems;
 import net.minecraft.client.Minecraft;
@@ -24,7 +25,7 @@ public class MouseHandlerMixin {
 		}
 		ci.cancel();
 		SeedBagItem.changeSorter(player.getItemInHand(InteractionHand.MAIN_HAND), delta);
-		int s = player.getItemInHand(InteractionHand.MAIN_HAND).getOrCreateTag().getInt("sorter");
+		int s = player.getItemInHand(InteractionHand.MAIN_HAND).getOrDefault(ModDataComponents.SORTER.get(), 0);
 		String id = SeedBagItem.SORTERS.get(s).getId().toString().replace(":", ".");
 		player.displayClientMessage(Component.translatable("agricraft.tooltip.bag.sorter")
 				.append(Component.translatable("agricraft.tooltip.bag.sorter." + id)), true);

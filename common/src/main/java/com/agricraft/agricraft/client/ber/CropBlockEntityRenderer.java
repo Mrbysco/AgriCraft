@@ -5,6 +5,7 @@ import com.agricraft.agricraft.api.crop.AgriGrowthStage;
 import com.agricraft.agricraft.client.ClientUtil;
 import com.agricraft.agricraft.common.block.CropBlock;
 import com.agricraft.agricraft.common.block.entity.CropBlockEntity;
+import com.agricraft.agricraft.common.util.PlatformClient;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -31,7 +32,7 @@ public class CropBlockEntityRenderer implements BlockEntityRenderer<CropBlockEnt
 			if (blockEntity.isCrossCropSticks()) {
 				modelId = modelId.replace("crop", "cross_crop");
 			}
-			BakedModel model = Minecraft.getInstance().getModelManager().bakedRegistry.get(new ResourceLocation(modelId));
+			BakedModel model = PlatformClient.get().getBakedModel(ResourceLocation.tryParse(modelId));
 			// render the stick model
 			Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(poseStack.last(),
 					buffer.getBuffer(RenderType.cutoutMipped()),

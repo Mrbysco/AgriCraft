@@ -18,7 +18,7 @@ import java.util.Optional;
 
 public class SeedAnalyzerScreen extends AbstractContainerScreen<SeedAnalyzerMenu> {
 
-	private final ResourceLocation GUI = new ResourceLocation(AgriApi.MOD_ID, "textures/gui/seed_analyzer.png");
+	private final ResourceLocation GUI = AgriApi.modLocation("textures/gui/seed_analyzer.png");
 	private final Component TEXT_SEPARATOR = Component.literal("-");
 
 	private int geneIndex;

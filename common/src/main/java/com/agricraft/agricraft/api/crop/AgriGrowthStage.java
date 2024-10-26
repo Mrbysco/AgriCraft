@@ -1,9 +1,26 @@
 package com.agricraft.agricraft.api.crop;
 
 import com.agricraft.agricraft.api.config.CoreConfig;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.RandomSource;
 
 public class AgriGrowthStage {
+	public static final Codec<AgriGrowthStage> CODEC = RecordCodecBuilder.create(inst -> inst.group(
+					Codec.INT.optionalFieldOf("index", 0).forGetter(AgriGrowthStage::index),
+					Codec.INT.optionalFieldOf("total", 0).forGetter(AgriGrowthStage::total)
+			)
+			.apply(inst, AgriGrowthStage::new));
+	public static final StreamCodec<FriendlyByteBuf, AgriGrowthStage> STREAM_CODEC = StreamCodec.composite(
+			ByteBufCodecs.VAR_INT,
+			p -> p.stage,
+			ByteBufCodecs.VAR_INT,
+			p -> p.total,
+			AgriGrowthStage::new
+	);
 
 	private final int stage;
 	private final int total;

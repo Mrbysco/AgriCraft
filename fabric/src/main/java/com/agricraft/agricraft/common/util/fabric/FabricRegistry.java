@@ -18,7 +18,7 @@ public class FabricRegistry<T> implements PlatformRegistry<T> {
 
 	@Override
 	public <I extends T> Entry<I> register(String id, Supplier<I> supplier) {
-		ResourceLocation rl = new ResourceLocation(modid, id);
+		ResourceLocation rl = ResourceLocation.fromNamespaceAndPath(modid, id);
 		return new FabricRegistryEntry<>(rl, Registry.register(this.registry, rl, supplier.get()));
 	}
 

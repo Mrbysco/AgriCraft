@@ -1,5 +1,6 @@
 package com.agricraft.agricraft.compat.jei;
 
+import com.agricraft.agricraft.common.datacomponent.ModDataComponents;
 import com.agricraft.agricraft.common.item.crafting.MagnifyingHelmetRecipe;
 import com.agricraft.agricraft.common.registry.ModItems;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -22,7 +23,7 @@ public class MagnifyingHelmetExtension implements ICraftingCategoryExtension<Mag
 	@Override
 	public void setRecipe(RecipeHolder<MagnifyingHelmetRecipe> recipeHolder, IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
 		List<ItemStack> helmetsOutput = HELMETS.stream().map(ItemStack::copy).toList();
-		helmetsOutput.forEach(h -> h.getOrCreateTag().putBoolean("magnifying", true));
+		helmetsOutput.forEach(h -> h.set(ModDataComponents.MAGNIFYING.get(), true));
 		int width = getWidth(recipeHolder);
 		int height = getHeight(recipeHolder);
 		craftingGridHelper.createAndSetInputs(builder, List.of(HELMETS, List.of(ModItems.MAGNIFYING_GLASS.get().getDefaultInstance())), width, height);

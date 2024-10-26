@@ -16,11 +16,11 @@ import net.minecraft.resources.ResourceLocation;
 
 public class CropMutationCategory implements IRecipeCategory<AgriMutation> {
 
-	public static final ResourceLocation ID = new ResourceLocation(AgriApi.MOD_ID, "jei/mutation");
+	public static final ResourceLocation ID = AgriApi.modLocation("jei/mutation");
 	public static final RecipeType<AgriMutation> TYPE = new RecipeType<>(ID, AgriMutation.class);
 
-	public static final IDrawable ICON = AgriCraftJeiPlugin.createDrawable(new ResourceLocation(AgriApi.MOD_ID, "textures/item/wooden_crop_sticks.png"), 0, 0, 16, 16, 16, 16);
-	public static final IDrawable BACKGROUND = AgriCraftJeiPlugin.createDrawable(new ResourceLocation(AgriApi.MOD_ID, "textures/gui/jei/crop_mutation.png"), 0, 0, 128, 128, 128, 128);
+	public static final IDrawable ICON = AgriCraftJeiPlugin.createDrawable(AgriApi.modLocation("textures/item/wooden_crop_sticks.png"), 0, 0, 16, 16, 16, 16);
+	public static final IDrawable BACKGROUND = AgriCraftJeiPlugin.createDrawable(AgriApi.modLocation("textures/gui/jei/crop_mutation.png"), 0, 0, 128, 128, 128, 128);
 
 	@Override
 	public RecipeType<AgriMutation> getRecipeType() {

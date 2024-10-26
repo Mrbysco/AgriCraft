@@ -7,14 +7,13 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.metadata.PackMetadataGenerator;
-import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ModelBuilder;
@@ -30,7 +29,7 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
-@Mod.EventBusSubscriber(modid = AgriApi.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = AgriApi.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class DatagenEventHandler {
 
 	private static final boolean biomesoplenty = true;
@@ -40,7 +39,7 @@ public class DatagenEventHandler {
 	@SubscribeEvent
 	public static void onGatherData(GatherDataEvent event) {
 		DataGenerator generator = event.getGenerator();
-		generator.addProvider(event.includeServer(), (DataProvider.Factory<RecipeProvider>) ModRecipeProvider::new);
+		generator.addProvider(event.includeServer(), new ModRecipeProvider(generator.getPackOutput(), event.getLookupProvider()));
 		BlockTagsProvider blockTagsProvider = generator.addProvider(event.includeServer(), (DataProvider.Factory<BlockTagsProvider>) output -> new ModBlockTagProvider(output, event.getLookupProvider(), AgriApi.MOD_ID, event.getExistingFileHelper()));
 		generator.addProvider(event.includeServer(), (DataProvider.Factory<ItemTagsProvider>) output -> new ModItemTagProvider(output, event.getLookupProvider(), blockTagsProvider.contentsGetter(), AgriApi.MOD_ID, event.getExistingFileHelper()));
 		generator.addProvider(

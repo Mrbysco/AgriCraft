@@ -2,6 +2,7 @@ package com.agricraft.agricraft;
 
 import com.agricraft.agricraft.api.AgriApi;
 import com.agricraft.agricraft.api.config.AgriCraftConfig;
+import com.agricraft.agricraft.common.datacomponent.ModDataComponents;
 import com.agricraft.agricraft.common.registry.ModBlockEntityTypes;
 import com.agricraft.agricraft.common.registry.ModBlocks;
 import com.agricraft.agricraft.common.registry.ModCreativeTabs;
@@ -20,6 +21,7 @@ public class AgriCraft {
 	public static void init() {
 		CONFIGURATOR.register(AgriCraftConfig.class);
 
+		ModDataComponents.DATA_COMPONENT_TYPES.init();
 		ModBlocks.BLOCKS.init();
 		ModItems.ITEMS.init();
 		ModBlockEntityTypes.BLOCK_ENTITY_TYPES.init();

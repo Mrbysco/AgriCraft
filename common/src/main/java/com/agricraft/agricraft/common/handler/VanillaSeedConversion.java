@@ -8,6 +8,7 @@ import com.agricraft.agricraft.api.genetic.AgriGenome;
 import com.agricraft.agricraft.common.block.CropBlock;
 import com.agricraft.agricraft.common.block.CropState;
 import com.agricraft.agricraft.common.block.entity.SeedAnalyzerBlockEntity;
+import com.agricraft.agricraft.common.datacomponent.ModDataComponents;
 import com.agricraft.agricraft.common.item.AgriSeedItem;
 import com.agricraft.agricraft.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -78,7 +79,7 @@ public class VanillaSeedConversion {
 	}
 
 	private static void plantSeedOnCrop(Player player, InteractionHand hand, AgriCrop crop, ItemStack seed) {
-		crop.plantGenome(AgriGenome.fromNBT(seed.getTag()));
+		crop.plantGenome(AgriGenome.fromNBT(seed.get(ModDataComponents.GENOME.get())));
 		if (player != null && !player.isCreative()) {
 			player.getItemInHand(hand).shrink(1);
 		}

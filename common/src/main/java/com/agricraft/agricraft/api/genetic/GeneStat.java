@@ -1,7 +1,7 @@
 package com.agricraft.agricraft.api.genetic;
 
-import com.agricraft.agricraft.api.stat.AgriStat;
 import com.agricraft.agricraft.api.plant.AgriPlant;
+import com.agricraft.agricraft.api.stat.AgriStat;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;

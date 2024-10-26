@@ -1,7 +1,7 @@
 package com.agricraft.agricraft.api.requirement;
 
-import com.agricraft.agricraft.api.plant.AgriPlant;
 import com.agricraft.agricraft.api.crop.AgriCrop;
+import com.agricraft.agricraft.api.plant.AgriPlant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 

@@ -4,6 +4,7 @@ package com.agricraft.agricraft.compat.jei;
 import com.agricraft.agricraft.api.AgriApi;
 import com.agricraft.agricraft.api.codecs.AgriMutation;
 import com.agricraft.agricraft.api.genetic.AgriGenome;
+import com.agricraft.agricraft.common.datacomponent.ModDataComponents;
 import com.agricraft.agricraft.common.item.crafting.MagnifyingHelmetRecipe;
 import com.agricraft.agricraft.common.registry.ModItems;
 import mezz.jei.api.IModPlugin;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 @JeiPlugin
 public class AgriCraftJeiPlugin implements IModPlugin {
 
-	public static final ResourceLocation ID = new ResourceLocation(AgriApi.MOD_ID, "compat_jei");
+	public static final ResourceLocation ID = AgriApi.modLocation("compat_jei");
 
 	@Override
 	@NotNull
@@ -37,7 +38,7 @@ public class AgriCraftJeiPlugin implements IModPlugin {
 	public void registerItemSubtypes(ISubtypeRegistration registration) {
 		// Register all The Seeds.
 		registration.registerSubtypeInterpreter(ModItems.SEED.get(), (stack, context) -> {
-			AgriGenome genome = AgriGenome.fromNBT(stack.getTag());
+			AgriGenome genome = AgriGenome.fromNBT(stack.get(ModDataComponents.GENOME.get()));
 			if (genome != null) {
 				return genome.getSpeciesGene().getTrait();
 			}

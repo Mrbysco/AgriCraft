@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id "dev.architectury.loom" version "1.6-SNAPSHOT" apply(false)
+	id "dev.architectury.loom" version "1.7-SNAPSHOT" apply(false)
 	id "architectury-plugin" version "3.4-SNAPSHOT"
 	id "com.github.johnrengelman.shadow" version "7.1.2" apply false
 }
@@ -47,22 +47,22 @@ subprojects {
 		minecraft "com.mojang:minecraft:${minecraft_version}"
 		mappings loom.layered() {
 			officialMojangMappings()
-			parchment("org.parchmentmc.data:parchment-${minecraft_version}:$parchment_version@zip")
+			parchment("org.parchmentmc.data:parchment-${parchment_minecraft}:$parchment_version@zip")
 		}
-		modApi "com.teamresourceful.resourcefulconfig:resourcefulconfig-$name-$minecraft_version:$resourcefulconfig_version"
+		modApi "com.teamresourceful.resourcefulconfig:resourcefulconfig-$name-$resourcefulconfig_minecraft:$resourcefulconfig_version"
 
 	}
 
 	tasks.withType(JavaCompile).tap {
 		configureEach {
 			options.encoding = "UTF-8"
-			options.release = 17
+			options.release = 21
 		}
 	}
 
 	java {
 		withSourcesJar()
-		toolchain.languageVersion = JavaLanguageVersion.of(17)
+		toolchain.languageVersion = JavaLanguageVersion.of(21)
 	}
 
 	jar {
@@ -75,7 +75,6 @@ subprojects {
 				"version": version,
 				"group": project.group, //Else we target the task's group.
 				"minecraft_version": minecraft_version,
-				"forge_version": forge_version,
 				"neoforge_version": neoforge_version,
 				"fabric_version": fabric_version,
 				"fabric_loader_version": fabric_loader_version,
@@ -83,7 +82,7 @@ subprojects {
 				"resourcefulconfig_version": resourcefulconfig_version
 		]
 
-		filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', '*.mixins.json']) {
+		filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
 			expand expandProps
 		}
 		inputs.properties(expandProps)

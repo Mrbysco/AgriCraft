@@ -4,10 +4,8 @@ import com.agricraft.agricraft.api.AgriApi;
 import com.agricraft.agricraft.api.tools.journal.JournalData;
 import com.agricraft.agricraft.api.tools.journal.JournalPage;
 import com.agricraft.agricraft.api.tools.journal.JournalPageDrawers;
-import com.mojang.blaze3d.platform.Lighting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
@@ -15,11 +13,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 
-import java.util.Iterator;
-
 public class JournalScreen extends Screen {
 
-	private static final ResourceLocation PAGE_BACKGROUND = new ResourceLocation(AgriApi.MOD_ID, "textures/gui/journal/background.png");
+	private static final ResourceLocation PAGE_BACKGROUND = AgriApi.modLocation("textures/gui/journal/background.png");
 	private static final int PAGE_WIDTH = 292;
 	private static final int PAGE_HEIGHT = 230;
 	private static final int OFFSET_LEFT_PAGE = 8;

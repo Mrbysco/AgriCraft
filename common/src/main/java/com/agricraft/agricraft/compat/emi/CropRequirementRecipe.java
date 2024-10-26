@@ -40,12 +40,12 @@ import java.util.List;
 import java.util.function.BooleanSupplier;
 
 public class CropRequirementRecipe implements EmiRecipe {
-	public static final EmiTexture BACKGROUND = new EmiTexture(new ResourceLocation(AgriApi.MOD_ID, "textures/gui/jei/crop_requirement.png"), 0, 0, 128, 128, 128, 128, 128, 128);
-	public static final EmiTexture COMPONENTS = new EmiTexture(new ResourceLocation(AgriApi.MOD_ID, "textures/gui/jei/crop_requirement.png"), 0, 0, 128, 128, 128, 128, 128, 128);
-	public static final EmiTexture GUI_COMPONENTS = new EmiTexture(new ResourceLocation(AgriApi.MOD_ID, "textures/gui/jei/crop_requirement_components.png"), 0, 0, 128, 128, 128, 128, 128, 128);
+	public static final EmiTexture BACKGROUND = new EmiTexture(AgriApi.modLocation("textures/gui/jei/crop_requirement.png"), 0, 0, 128, 128, 128, 128, 128, 128);
+	public static final EmiTexture COMPONENTS = new EmiTexture(AgriApi.modLocation("textures/gui/jei/crop_requirement.png"), 0, 0, 128, 128, 128, 128, 128, 128);
+	public static final EmiTexture GUI_COMPONENTS = new EmiTexture(AgriApi.modLocation("textures/gui/jei/crop_requirement_components.png"), 0, 0, 128, 128, 128, 128, 128, 128);
 
-	public static final ResourceLocation R_COMPONENTS = new ResourceLocation(AgriApi.MOD_ID, "textures/gui/jei/crop_requirement_components.png");
-	public static final ResourceLocation R_GUI_COMPONENTS = new ResourceLocation(AgriApi.MOD_ID, "textures/gui/gui_components.png");
+	public static final ResourceLocation R_COMPONENTS = AgriApi.modLocation("textures/gui/jei/crop_requirement_components.png");
+	public static final ResourceLocation R_GUI_COMPONENTS = AgriApi.modLocation("textures/gui/gui_components.png");
 
 	public static final int[] HUMIDITY_OFFSETS = {8, 8, 10, 10, 10, 7};
 	public static final int[] ACIDITY_OFFSETS = {7, 8, 7, 8, 8, 8, 6};

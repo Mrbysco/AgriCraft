@@ -2,6 +2,7 @@ package com.agricraft.agricraft.compat.emi;
 
 import com.agricraft.agricraft.api.AgriApi;
 import com.agricraft.agricraft.api.genetic.AgriGenome;
+import com.agricraft.agricraft.common.datacomponent.ModDataComponents;
 import com.agricraft.agricraft.common.registry.ModItems;
 import dev.emi.emi.api.EmiInitRegistry;
 import dev.emi.emi.api.EmiPlugin;
@@ -22,14 +23,14 @@ public class AgriCraftEmiPlugin implements EmiPlugin {
 	public static final EmiStack WOODEN_CROP_STICK = EmiStack.of(ModItems.WOODEN_CROP_STICKS.get());
 	public static final EmiStack CLIPPER = EmiStack.of(ModItems.CLIPPER.get());
 	public static final EmiStack FARMLAND = EmiStack.of(Items.FARMLAND);
-	public static final EmiTexture TEXTURE = new EmiTexture(new ResourceLocation(AgriApi.MOD_ID, "textures/gui/jei/crop_mutation.png"), 0, 0, 128, 128, 128, 128, 128, 128);
-	public static final EmiRecipeCategory MUTATION_CATEGORY = new EmiRecipeCategory(new ResourceLocation("agricraft", "mutation"), WOODEN_CROP_STICK);
-	public static final EmiRecipeCategory PRODUCE_CATEGORY = new EmiRecipeCategory(new ResourceLocation("agricraft", "produce"), WOODEN_CROP_STICK);
-	public static final EmiRecipeCategory CLIPPING_CATEGORY = new EmiRecipeCategory(new ResourceLocation("agricraft", "clipping"), CLIPPER);
-	public static final EmiRecipeCategory REQUIREMENT_CATEGORY = new EmiRecipeCategory(new ResourceLocation("agricraft", "requirement"), FARMLAND);
+	public static final EmiTexture TEXTURE = new EmiTexture(AgriApi.modLocation("textures/gui/jei/crop_mutation.png"), 0, 0, 128, 128, 128, 128, 128, 128);
+	public static final EmiRecipeCategory MUTATION_CATEGORY = new EmiRecipeCategory(AgriApi.modLocation("mutation"), WOODEN_CROP_STICK);
+	public static final EmiRecipeCategory PRODUCE_CATEGORY = new EmiRecipeCategory(AgriApi.modLocation("produce"), WOODEN_CROP_STICK);
+	public static final EmiRecipeCategory CLIPPING_CATEGORY = new EmiRecipeCategory(AgriApi.modLocation("clipping"), CLIPPER);
+	public static final EmiRecipeCategory REQUIREMENT_CATEGORY = new EmiRecipeCategory(AgriApi.modLocation("requirement"), FARMLAND);
 
 	public static final Comparison COMPARE_SEEDS = Comparison.compareData(stack -> {
-		var genome = AgriGenome.fromNBT(stack.getNbt());
+		var genome = AgriGenome.fromNBT(stack.get(ModDataComponents.GENOME.get()));
 		if (genome != null) {
 			return genome.getSpeciesGene().getDominant().trait();
 		} else {
@@ -42,7 +43,7 @@ public class AgriCraftEmiPlugin implements EmiPlugin {
 	}
 
 	public static <T> ResourceLocation prefixedId(ResourceKey<T> key, String prefix) {
-		return new ResourceLocation("agricraft", "/" + prefix + "/" + key.location().toString().replace(":", "/"));
+		return AgriApi.modLocation("/" + prefix + "/" + key.location().toString().replace(":", "/"));
 	}
 
 	@Override
@@ -52,7 +53,7 @@ public class AgriCraftEmiPlugin implements EmiPlugin {
 		registry.addWorkstation(MUTATION_CATEGORY, EmiStack.of(ModItems.IRON_CROP_STICKS.get()));
 		registry.addWorkstation(MUTATION_CATEGORY, EmiStack.of(ModItems.OBSIDIAN_CROP_STICKS.get()));
 
-		EmiStack normalSeed = EmiStack.of(ModItems.SEED.get()).comparison(Comparison.compareNbt());
+		EmiStack normalSeed = EmiStack.of(ModItems.SEED.get()).comparison(Comparison.compareComponents());
 		registry.removeEmiStacks(normalSeed);
 		AgriApi.getMutationRegistry().ifPresent(mutations -> mutations.entrySet().forEach(entry -> registry.addRecipe(new CropMutationRecipe(prefixedId(entry.getKey(), "mutations"), entry.getValue()))));
 

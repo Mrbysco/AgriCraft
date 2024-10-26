@@ -41,7 +41,7 @@ public class PlantIngredient {
 
 		@Override
 		public ResourceLocation getResourceLocation(AgriPlant plant) {
-			return AgriApi.getPlantId(plant).orElse(new ResourceLocation("agricraft:unknown"));
+			return AgriApi.getPlantId(plant).orElse(AgriApi.modLocation("unknown"));
 		}
 
 		@Override

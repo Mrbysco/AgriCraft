@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class IntroductionPage implements JournalPage {
 
-	public static final ResourceLocation ID = new ResourceLocation(AgriApi.MOD_ID, "introduction_page");
+	public static final ResourceLocation ID = AgriApi.modLocation("introduction_page");
 
 	@Override
 	public ResourceLocation getDrawerId() {

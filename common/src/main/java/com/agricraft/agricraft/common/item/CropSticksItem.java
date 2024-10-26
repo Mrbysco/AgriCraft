@@ -44,7 +44,7 @@ public class CropSticksItem extends BlockItem {
 	}
 
 	protected InteractionResult applyToExisting(Level world, BlockPos pos, BlockState state, Player player, InteractionHand hand) {
-		InteractionResult result = CropBlock.applyCropSticks(world, pos, state, this.getVariant());
+		InteractionResult result = CropBlock.applyCropSticks(world, pos, state, this.getVariant()).result();
 		if(result == InteractionResult.SUCCESS) {
 			if(player != null) {
 				ItemStack stack = player.getItemInHand(hand);

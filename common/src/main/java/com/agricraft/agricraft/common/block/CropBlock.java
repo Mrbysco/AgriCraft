@@ -19,6 +19,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -103,12 +104,12 @@ public class CropBlock extends Block implements EntityBlock, BonemealableBlock, 
 		level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, stack));
 	}
 
-	public static InteractionResult applyCropSticks(Level level, BlockPos pos, BlockState state, CropStickVariant variant) {
+	public static ItemInteractionResult applyCropSticks(Level level, BlockPos pos, BlockState state, CropStickVariant variant) {
 		if (variant == null) {
-			return InteractionResult.FAIL;
+			return ItemInteractionResult.FAIL;
 		}
 		if (level.isClientSide()) {
-			return InteractionResult.PASS;
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 		CropState cropState = state.getValue(CROP_STATE);
 		BlockState newState = state;
@@ -118,7 +119,7 @@ public class CropBlock extends Block implements EntityBlock, BonemealableBlock, 
 			newState = state.setValue(CROP_STATE, CropState.DOUBLE_STICKS);
 		}
 		if (newState == state) {
-			return InteractionResult.FAIL;
+			return ItemInteractionResult.FAIL;
 		} else {
 			level.setBlock(pos, newState, 3);
 			if (cropState.hasSticks()) {
@@ -127,7 +128,7 @@ public class CropBlock extends Block implements EntityBlock, BonemealableBlock, 
 				SoundType sound = Blocks.WHEAT.getSoundType(Blocks.WHEAT.defaultBlockState());
 				level.playSound(null, pos, sound.getPlaceSound(), SoundSource.BLOCKS, (sound.getVolume() + 1.0F) / 2.0F, sound.getPitch() * 0.8F);
 			}
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		}
 	}
 
@@ -229,40 +230,39 @@ public class CropBlock extends Block implements EntityBlock, BonemealableBlock, 
 	}
 
 	@Override
-	@NotNull
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 		Optional<AgriCrop> optional = AgriApi.getCrop(level, pos);
 		if (optional.isEmpty()) {
-			return InteractionResult.FAIL;
+			return ItemInteractionResult.FAIL;
 		}
 		AgriCrop crop = optional.get();
 		// TODO: @Ketheroth future: run plant pre logic
 		// run crop logic
 		// do nothing from off hand
 		if (hand == InteractionHand.OFF_HAND) {
-			return InteractionResult.PASS;
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 		ItemStack heldItem = player.getItemInHand(hand);
 		// TODO: @Ketheroth replace with item tag
 		if (heldItem.is(ModItems.CLIPPER.get()) || heldItem.is(ModItems.IRON_RAKE.get()) || heldItem.is(ModItems.WOODEN_RAKE.get())) {
-			return InteractionResult.PASS;
+			return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 		}
 		if (AgriApi.getFertilizerAdapter(heldItem).isPresent()) {
 			return AgriApi.getFertilizerAdapter(heldItem).get().valueOf(heldItem).map(fertilizer -> {
 				if (crop.acceptsFertilizer(fertilizer)) {
-					InteractionResult result = fertilizer.applyFertilizer(level, pos, crop, heldItem, level.random, player);
-					if (result == InteractionResult.CONSUME || result == InteractionResult.SUCCESS) {
+					ItemInteractionResult result = fertilizer.applyFertilizer(level, pos, crop, heldItem, level.random, player);
+					if (result == ItemInteractionResult.CONSUME || result == ItemInteractionResult.SUCCESS) {
 						crop.onApplyFertilizer(fertilizer, level.random);
 					}
 					return result;
 				}
-				return InteractionResult.CONSUME;
-			}).orElse(InteractionResult.PASS);
+				return ItemInteractionResult.CONSUME;
+			}).orElse(ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION);
 		}
 		// placement of crop sticks or creation of cross crop
 		if (heldItem.getItem() instanceof CropSticksItem) {
-			InteractionResult result = applyCropSticks(level, pos, state, CropStickVariant.fromItem(heldItem));
-			if (result == InteractionResult.SUCCESS) {
+			ItemInteractionResult result = applyCropSticks(level, pos, state, CropStickVariant.fromItem(heldItem));
+			if (result == ItemInteractionResult.SUCCESS) {
 				if (!player.isCreative()) {
 					player.getItemInHand(hand).shrink(1);
 				}
@@ -277,9 +277,9 @@ public class CropBlock extends Block implements EntityBlock, BonemealableBlock, 
 				if (!player.isCreative()) {
 					player.getItemInHand(hand).shrink(1);
 				}
-				return InteractionResult.SUCCESS;
+				return ItemInteractionResult.SUCCESS;
 			} else {
-				return InteractionResult.CONSUME;
+				return ItemInteractionResult.CONSUME;
 			}
 		}
 		// harvesting or de-cross-crop'ing if nothing else checks out
@@ -289,15 +289,15 @@ public class CropBlock extends Block implements EntityBlock, BonemealableBlock, 
 				if (!player.isCreative()) {
 					spawnItem(level, pos, CropStickVariant.toItem(result.getObject()));
 				}
-				return InteractionResult.CONSUME;
+				return ItemInteractionResult.CONSUME;
 			}
 		} else if (crop.hasPlant() && crop.canBeHarvested()) {
 			crop.getHarvestProducts(itemStack -> spawnItem(level, pos, itemStack));
 			crop.setGrowthStage(crop.getPlant().getGrowthStageAfterHarvest());
 			crop.getPlant().onHarvest(crop, player);
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		}
-		return InteractionResult.FAIL;
+		return ItemInteractionResult.FAIL;
 	}
 
 	@Override

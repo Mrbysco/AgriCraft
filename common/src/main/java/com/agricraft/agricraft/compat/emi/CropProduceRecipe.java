@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class CropProduceRecipe implements EmiRecipe {
-	public static final EmiTexture BACKGROUND = new EmiTexture(new ResourceLocation(AgriApi.MOD_ID, "textures/gui/jei/crop_produce.png"), 0, 0, 128, 128, 128, 128, 128, 128);
+	public static final EmiTexture BACKGROUND = new EmiTexture(AgriApi.modLocation("textures/gui/jei/crop_produce.png"), 0, 0, 128, 128, 128, 128, 128, 128);
 
 
 	private final ResourceLocation id;
@@ -34,7 +34,7 @@ public class CropProduceRecipe implements EmiRecipe {
 		input = List.of(EmiStack.of(AgriSeedItem.toStack(plant)).comparison(AgriCraftEmiPlugin.compareSeeds()));
 		this.plant = plant;
 		output = new ArrayList<>();
-		plant.getAllPossibleProducts(product -> output.add(EmiStack.of(product).comparison(Comparison.compareNbt())));
+		plant.getAllPossibleProducts(product -> output.add(EmiStack.of(product).comparison(Comparison.compareComponents())));
 	}
 
 	@Override

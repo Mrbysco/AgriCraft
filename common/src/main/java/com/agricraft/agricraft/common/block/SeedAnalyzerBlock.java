@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -62,14 +62,14 @@ public class SeedAnalyzerBlock extends Block implements EntityBlock {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 		if (hand == InteractionHand.OFF_HAND) {
-			return InteractionResult.FAIL;
+			return ItemInteractionResult.FAIL;
 		}
 		BlockEntity blockEntity = level.getBlockEntity(pos);
 		ItemStack heldItem = player.getItemInHand(hand);
 		if (!(blockEntity instanceof SeedAnalyzerBlockEntity analyzer)) {
-			return InteractionResult.FAIL;
+			return ItemInteractionResult.FAIL;
 		}
 		if (player.isShiftKeyDown()) {
 			// extract seeds
@@ -79,24 +79,24 @@ public class SeedAnalyzerBlock extends Block implements EntityBlock {
 					level.addFreshEntity(new ItemEntity(level, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, seed));
 				}
 
-				return InteractionResult.CONSUME;
+				return ItemInteractionResult.CONSUME;
 			}
 			// extract journal
 			if (analyzer.hasJournal()) {
 				if (heldItem.isEmpty()) {
 					ItemStack journal = analyzer.extractJournal();
 					player.setItemInHand(hand, journal);
-					return InteractionResult.CONSUME;
+					return ItemInteractionResult.CONSUME;
 				} else {
-					return InteractionResult.FAIL;
+					return ItemInteractionResult.FAIL;
 				}
 			}
-			return InteractionResult.FAIL;
+			return ItemInteractionResult.FAIL;
 		} else {
 			if (!level.isClientSide) {
 				Platform.get().openMenu((ServerPlayer) player, analyzer);
 			}
-			return InteractionResult.CONSUME;
+			return ItemInteractionResult.CONSUME;
 		}
 	}
 

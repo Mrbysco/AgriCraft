@@ -6,12 +6,12 @@ import com.agricraft.agricraft.api.AgriRegistry;
 import com.agricraft.agricraft.api.codecs.AgriBlockCondition;
 import com.agricraft.agricraft.api.codecs.AgriFluidCondition;
 import com.agricraft.agricraft.api.codecs.AgriListCondition;
-import com.agricraft.agricraft.api.plant.AgriPlant;
 import com.agricraft.agricraft.api.codecs.AgriRequirement;
 import com.agricraft.agricraft.api.codecs.AgriSoil;
 import com.agricraft.agricraft.api.codecs.AgriSoilCondition;
 import com.agricraft.agricraft.api.codecs.AgriSoilValue;
 import com.agricraft.agricraft.api.crop.AgriCrop;
+import com.agricraft.agricraft.api.plant.AgriPlant;
 import com.agricraft.agricraft.common.util.Platform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -121,7 +121,7 @@ public class AgriGrowthConditionRegistry extends AgriRegistry<AgriGrowthConditio
 				}
 			}
 			return AgriGrowthResponse.FERTILE;
-		}, (level, blockPos) -> level.dimensionTypeId());
+		}, (level, blockPos) -> level.dimensionTypeRegistration().unwrapKey().orElseThrow());
 		season = new BaseGrowthCondition<>("season", (plant, strength, season) -> {
 			List<AgriSeason> seasons = plant.getGrowthRequirements().seasons();
 			if (!AgriApi.getSeasonLogic().isActive()

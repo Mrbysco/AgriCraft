@@ -2,7 +2,6 @@ package com.agricraft.agricraft.api.adapter;
 
 import com.agricraft.agricraft.api.AgriApi;
 import com.agricraft.agricraft.api.fertilizer.AgriFertilizer;
-import com.agricraft.agricraft.api.genetic.AgriGenome;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 

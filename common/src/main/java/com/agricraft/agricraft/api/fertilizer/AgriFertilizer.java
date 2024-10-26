@@ -12,7 +12,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -130,11 +130,11 @@ public class AgriFertilizer {
 	 * @param entity       The entity applying the fertilizer (can be null if fertilized through automation)
 	 * @return the result to handle the item use call chain
 	 */
-	public InteractionResult applyFertilizer(Level level, BlockPos pos, IAgriFertilizable fertilizable, ItemStack stack, RandomSource random, @Nullable LivingEntity entity) {
+	public ItemInteractionResult applyFertilizer(Level level, BlockPos pos, IAgriFertilizable fertilizable, ItemStack stack, RandomSource random, @Nullable LivingEntity entity) {
 		if (fertilizable instanceof AgriCrop crop) {
 			String type = "neutral";
 			for (int i = 0; i < this.potency; i++) {
-				if (this.isNegativeOn(new ResourceLocation(crop.getPlantId ()))) {
+				if (this.isNegativeOn(ResourceLocation.tryParse(crop.getPlantId ()))) {
 					if (this.canReduceGrowth() && random.nextBoolean()) {
 						type = "negative";
 						if (!level.isClientSide()) {
@@ -166,15 +166,15 @@ public class AgriFertilizer {
 			if ((entity instanceof Player) && !(((Player) entity).isCreative())) {
 				stack.shrink(1);
 			}
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		}
-		return InteractionResult.FAIL;
+		return ItemInteractionResult.FAIL;
 	}
 
 	protected void spawnParticles(Level world, BlockPos pos, String type, RandomSource rand) {
 		this.getParticles(type)
 				.forEach(effect -> {
-					ParticleType<?> particle = BuiltInRegistries.PARTICLE_TYPE.get(new ResourceLocation(effect.particle()));
+					ParticleType<?> particle = BuiltInRegistries.PARTICLE_TYPE.get(ResourceLocation.tryParse(effect.particle()));
 					if (!(particle instanceof ParticleOptions)) {
 						return;
 					}
@@ -197,7 +197,7 @@ public class AgriFertilizer {
 		if (!(target instanceof AgriCrop crop)) {
 			return false;
 		}
-		return crop.hasPlant() && this.affects(new ResourceLocation(crop.getPlantId()));
+		return crop.hasPlant() && this.affects(ResourceLocation.tryParse(crop.getPlantId()));
 	}
 
 	@Override
@@ -295,26 +295,26 @@ public class AgriFertilizer {
 
 		public Builder neutralOn(String... neutralOn) {
 			for (String str : neutralOn) {
-				this.neutralOn.add(new ExtraCodecs.TagOrElementLocation(new ResourceLocation(str), false));
+				this.neutralOn.add(new ExtraCodecs.TagOrElementLocation(ResourceLocation.tryParse(str), false));
 			}
 			return this;
 		}
 		public Builder neutralOnTag(String... neutralOn) {
 			for (String str : neutralOn) {
-				this.neutralOn.add(new ExtraCodecs.TagOrElementLocation(new ResourceLocation(str), true));
+				this.neutralOn.add(new ExtraCodecs.TagOrElementLocation(ResourceLocation.tryParse(str), true));
 			}
 			return this;
 		}
 
 		public Builder negativeOn(String... negativeOn) {
 			for (String str : negativeOn) {
-				this.negativeOn.add(new ExtraCodecs.TagOrElementLocation(new ResourceLocation(str), false));
+				this.negativeOn.add(new ExtraCodecs.TagOrElementLocation(ResourceLocation.tryParse(str), false));
 			}
 			return this;
 		}
 		public Builder negativeOnTag(String... negativeOn) {
 			for (String str : negativeOn) {
-				this.negativeOn.add(new ExtraCodecs.TagOrElementLocation(new ResourceLocation(str), true));
+				this.negativeOn.add(new ExtraCodecs.TagOrElementLocation(ResourceLocation.tryParse(str), true));
 			}
 			return this;
 		}

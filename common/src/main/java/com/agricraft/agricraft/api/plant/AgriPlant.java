@@ -1,5 +1,6 @@
 package com.agricraft.agricraft.api.plant;
 
+import com.agricraft.agricraft.api.AgriApi;
 import com.agricraft.agricraft.api.codecs.AgriParticleEffect;
 import com.agricraft.agricraft.api.codecs.AgriProduct;
 import com.agricraft.agricraft.api.codecs.AgriRequirement;
@@ -51,7 +52,7 @@ public class AgriPlant {
 	).apply(instance, AgriPlant::new));
 
 	public static final AgriPlant NO_PLANT = new AgriPlant.Builder().harvest(0).chances(0, 0, 0).build();
-	public static final ResourceLocation UNKNOWN = new ResourceLocation("agricraft:unknown");
+	public static final ResourceLocation UNKNOWN = AgriApi.modLocation("unknown");
 
 	private final List<String> mods;
 	private final List<AgriSeed> seeds;
@@ -144,8 +145,8 @@ public class AgriPlant {
 		this.products.forEach(product -> {
 			Platform.get().getItemsFromLocation(product.item()).forEach(item -> {
 				ItemStack itemStack = new ItemStack(item, product.min());
-				if (!product.nbt().isEmpty()) {
-					itemStack.getOrCreateTag().merge(product.nbt());
+				if (!product.components().isEmpty()) {
+					itemStack.applyComponents(product.components());
 				}
 				products.accept(itemStack);
 			});
@@ -159,8 +160,8 @@ public class AgriPlant {
 						List<Item> possible = Platform.get().getItemsFromLocation(product.item());
 						Item item = possible.get(random.nextInt(possible.size()));
 						ItemStack itemStack = new ItemStack(item, product.getAmount(random));
-						if (!product.nbt().isEmpty()) {
-							itemStack.getOrCreateTag().merge(product.nbt());
+						if (!product.components().isEmpty()) {
+							itemStack.applyComponents(product.components());
 						}
 						products.accept(itemStack);
 					});
@@ -181,8 +182,8 @@ public class AgriPlant {
 						List<Item> possible = Platform.get().getItemsFromLocation(product.item());
 						Item item = possible.get(random.nextInt(possible.size()));
 						ItemStack itemStack = new ItemStack(item, product.getAmount(random));
-						if (!product.nbt().isEmpty()) {
-							itemStack.getOrCreateTag().merge(product.nbt());
+						if (!product.components().isEmpty()) {
+							itemStack.applyComponents(product.components());
 						}
 						products.accept(itemStack);
 					});
@@ -202,7 +203,7 @@ public class AgriPlant {
 		this.particleEffects.stream()
 				.filter(effect -> effect.allowParticles(stage.index()))
 				.forEach(effect -> {
-					ParticleType<?> particle = Platform.get().getParticleType(new ResourceLocation(effect.particle()));
+					ParticleType<?> particle = Platform.get().getParticleType(ResourceLocation.tryParse(effect.particle()));
 					if (!(particle instanceof ParticleOptions)) {
 						return;
 					}
